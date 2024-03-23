@@ -10,6 +10,14 @@ const userSchema = new Schema(
         trim:true,
         index:true
     },
+    username:{
+        type:String,
+        required:true,
+        unique:true,
+        lowercase:true,
+        index:true,
+        trim:true
+    },
     email:{
          type:String,
          required:true,
@@ -35,7 +43,7 @@ yaha use krenge mongoose ke hooks like pre hook ka jo hum use kr skte hai
 
  userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next(); // hr field ke liye change na kre isliye yeh conditon lagayi
-    this.password = bcrypt.hash(this.password,8)
+    this.password = await bcrypt.hash(this.password,8)
     console.log("PASSWORD HASH: ",this.password)
     return next();
  })
@@ -54,7 +62,8 @@ yaha use krenge mongoose ke hooks like pre hook ka jo hum use kr skte hai
         {
             _id:this._id,
             email:this.email,
-            fullName:this.fullName
+            fullName:this.fullName,
+            username:this.username
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
