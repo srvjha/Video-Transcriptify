@@ -43,9 +43,9 @@ yaha use krenge mongoose ke hooks like pre hook ka jo hum use kr skte hai
 
  userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next(); // hr field ke liye change na kre isliye yeh conditon lagayi
-    this.password = await bcrypt.hash(this.password,8)
+    this.password = await bcrypt.hash(this.password,10)
     console.log("PASSWORD HASH: ",this.password)
-    return next();
+   next();
  })
 
  // ab iske baad hum compare krke check bhi kr na padega ki password same hai ki nhi
