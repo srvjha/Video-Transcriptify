@@ -111,6 +111,7 @@ const loginUser = asyncHandler(async(req,res)=>{
       console.log("ACCESS TOKEN: ",accessToken)
       console.log("REFRESH TOKEN: ",refreshToken)
       const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+      console.log("LOGGED USER :",loggedInUser)
 
      //Cookies
      const options = { // --> yeh krne se cookies sirf server se modify ho skta hai warna yeh beDfault modify bhi hota hai frontend pe
@@ -136,6 +137,19 @@ const loginUser = asyncHandler(async(req,res)=>{
 
 const logoutUser = asyncHandler(async(req,res)=>{
      console.log("Requested middleware :",req.userLogoutMiddleware)
+     console.log("Requesetd ID : ", req.userLogoutMiddleware?._id)
+     const save =  await User.findByIdAndUpdate(
+      req.userLogoutMiddleware?._id,
+      {
+         $set:{
+            refreshToken:undefined
+         }
+      },
+      {
+         new:true
+      }
+    )
+    console.log("SAVE :",save)
       await User.findByIdAndUpdate(
          req.userLogoutMiddleware?._id,
          {

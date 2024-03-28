@@ -1,11 +1,14 @@
 import React,{useState} from "react"
 import axios from 'axios'
+import { Link,useNavigate } from 'react-router-dom';
 
 function Register() {
   const [username,setUsername] = useState('')
   const [fullname,setFullname] = useState('')
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+  const navigate = useNavigate()
+
 
   // post data from frontend
   const handleRegisterForm = (e) => {
@@ -18,6 +21,9 @@ function Register() {
     {
       formReset(e)
       console.log(res)
+      console.log(res.data)
+      console.log(res.data.data)
+      navigate("/",{ state: { fullName: res.data.data.fullName } })
     }
     )
     .catch((error) => console.error(error));
@@ -73,7 +79,10 @@ function Register() {
                 Create an account
                 </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+                Already have an account? 
+                <Link to="/login">
+                <a href="#" className="font-medium text-primary-600 hover:underline dark:text-blue-500">Login here</a>
+                </Link>
               </p>
             </form>
           </div>
