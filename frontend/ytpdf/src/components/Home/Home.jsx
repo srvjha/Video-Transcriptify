@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { Link, useLocation,useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import MainPage from '../MainPage/MainPage';
 
 const Home = () => {
     const location = useLocation();
@@ -41,15 +42,10 @@ const Home = () => {
                                 onClick={(e) => handleLogoutForm(e)}>Logout</div>
                         </div>
                         <div className=' text-center bg-slate-200 min-h-screen text-[40px] text-black'>
-                            <div className="font-semibold">Convert your Youtube Video to PDF</div>
-                            <div className="mt-10">
-                                <label htmlFor="Youtube-Link" className="text-2xl font-medium ">Youtube Link:</label>
-                                <input
-                                    type="text"
-                                    className=" ml-2 p-2 h-14 w-[700px] bg-transparent border border-black   rounded-md text-lg"
-                                />
-                            </div>
+                            <div className="font-semibold">Download Youtube Video</div>
+                           <MainPage/>
                         </div>
+                        
 
 
                     </>
