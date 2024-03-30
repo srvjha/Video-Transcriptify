@@ -7,6 +7,7 @@ import Home from './components/Home/Home.jsx'
 import Register from './components/Register/Register.jsx'
 import Login from './components/Login/Login.jsx'
 import MainPage from './components/MainPage/MainPage.jsx'
+import GeneratePDF from './components/GeneratePDF/GeneratePDF.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,7 +15,8 @@ const router = createBrowserRouter(
     <Route path='' element={<Home/>}/>
     <Route path='register' element={<Register/>}/>
     <Route path="login" element={<Login/>}/>   
-    <Route path="login/mainPage" element={<MainPage/>}/>
+    <Route path="mainPage" element={<MainPage/>}/>
+    <Route path="generatePDF" element={<GeneratePDF/>}/>
     
     </Route>
   )
