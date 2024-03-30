@@ -30,60 +30,30 @@ const MainPage = () => {
     setUrl("");
   };
 
-  const fetchAndStoreTranscript = async () => {
-    const { id } = getVideoId(url);
-    setLoading(true);
-    try {
-      const response = await axios.get(`http://localhost:3000/transcript?url=${id}`);
-      setTranscript(response.data.transcript);
-      setError(null);
-    } catch (error) {
-      setError("Error fetching transcript. Please try again.");
-      setTranscript("");
-    }
-    setLoading(false);
-  };
+ 
 
 
   return (
     <>
-      <div className="mt-10">
-        <label htmlFor="Youtube-Link" className="text-2xl font-medium">Youtube Link:</label>
-        <input
-          type="text"
-          className="ml-2 p-2 h-14 w-[700px] bg-transparent border border-black rounded-md text-lg"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-          placeholder='Enter Your Youtube URL...'
-        />
-      </div>
+      <div className="flex justify-center">
+          <label htmlFor="Youtube-Link" className="text-2xl font-medium mt-2 ">Youtube Link:</label>
+          <input
+            type="text"
+            className="ml-2 p-2 h-14 w-[700px] text-black placeholder-black bg-transparent border border-black rounded-md text-lg"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+            placeholder='Enter Your Youtube URL...'
+          />
+        </div>
 
       <div
-        className='bg-black pb-4 pt-3 h-12 w-32 ml-[730px] text-white mt-2 text-[15px] rounded-md cursor-pointer'
+        className='bg-black pb-3 pt-3 pl-4 mt-6  h-12 w-32 ml-[780px] text-white text-[15px] rounded-md cursor-pointer'
         onClick={(e) => handleDownload(e)}
       >
         Download Video
       </div>
-      <div >
-            <div className="text-2xl font-medium cursor-pointer" onClick={fetchAndStoreTranscript}>Transcript:</div>
-            <div>
-            {loading ? (
-          "Loading..."
-        ) : error ? (
-          "Error fetching transcript"
-        ) : transcript ? (
-          transcript.map((item, index) => (
-            <div key={index}>
-              <p>{item.text}</p>
-             
-            </div>
-          ))
-        ) : (
-          "Transcript will appear here once generated."
-        )}
-              </div>
-          </div>
+      
       
       {loading && <div>Loading...</div>}
       {error && <div className="text-red-700 font-bold mt-4">{error}</div>}

@@ -62,7 +62,7 @@ const Home = () => {
                            
                         </div>
                          
-               { activePDF ? <GeneratePDF/>:
+               { activePDF  ? <GeneratePDF/>:
                
                <div className=' text-center text-[40px] text-black'>
                         <div className=" py-10">
