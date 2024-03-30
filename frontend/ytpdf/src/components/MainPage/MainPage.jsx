@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import { SpeechClient } from '@google-cloud/speech/build/src/v1';
+import { YoutubeTranscript } from 'youtube-transcript';
+import getVideoId from 'get-video-id';
+
+
 
 // Rest of the code remains the same
 
@@ -27,39 +30,20 @@ const MainPage = () => {
     setUrl("");
   };
 
-  const generateTranscript = async () => {
-    if (!data) return;
-
-    const client = new SpeechClient();
-    console.log("CLIENT : ",client)
-    const audioUri = data.url; // Assuming this is the URL of the audio track from the video
-    console.log("AUDIOURI : ",audioUri)
-    const audio = {
-      uri: audioUri,
-    };
-    const config = {
-      encoding: 'LINEAR16',
-      sampleRateHertz: 16000,
-      languageCode: 'en-US',
-    };
-    const request = {
-      audio: audio,
-      config: config,
-    };
-
+  const fetchAndStoreTranscript = async () => {
+    const { id } = getVideoId(url);
+    setLoading(true);
     try {
-      const [response] = await client.recognize(request);
-      console.log("RESPONSE : ",response)
-      const transcription = response.results
-        .map(result => result.alternatives[0].transcript)
-        .join('\n');
-        console.log("TRANSCRIPT : ",transcription)
-      setTranscript(transcription);
+      const response = await axios.get(`http://localhost:3000/transcript?url=${id}`);
+      setTranscript(response.data.transcript);
+      setError(null);
     } catch (error) {
-      console.error('Error transcribing:', error);
-      setTranscript("Error generating transcript.");
+      setError("Error fetching transcript. Please try again.");
+      setTranscript("");
     }
+    setLoading(false);
   };
+
 
   return (
     <>
@@ -82,8 +66,23 @@ const MainPage = () => {
         Download Video
       </div>
       <div >
-            <div className="text-2xl font-medium cursor-pointer" onClick={()=>generateTranscript()}>Transcript:</div>
-            <div>{transcript || "Transcript will appear here once generated."}</div>
+            <div className="text-2xl font-medium cursor-pointer" onClick={fetchAndStoreTranscript}>Transcript:</div>
+            <div>
+            {loading ? (
+          "Loading..."
+        ) : error ? (
+          "Error fetching transcript"
+        ) : transcript ? (
+          transcript.map((item, index) => (
+            <div key={index}>
+              <p>{item.text}</p>
+             
+            </div>
+          ))
+        ) : (
+          "Transcript will appear here once generated."
+        )}
+              </div>
           </div>
       
       {loading && <div>Loading...</div>}

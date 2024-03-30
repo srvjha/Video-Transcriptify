@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import ytdl from "ytdl-core"
+import { YoutubeTranscript } from 'youtube-transcript';
+
 
 const app =express();
 app.use(cors({    
@@ -33,6 +35,18 @@ app.get('/download', async (req, res) => {
         return res.status(500)
     }
 })
+
+app.get('/transcript', async (req, res) => {
+    try {
+      const url = req.query.url;
+      const transcript = await YoutubeTranscript.fetchTranscript(url);
+  
+      return res.json({ transcript });
+    } catch (error) {
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 // Router
 import userRouter from "./routes/user.routes.js"
