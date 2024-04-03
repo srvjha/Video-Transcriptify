@@ -44,7 +44,7 @@ const GeneratePDF = () => {
     const { id } = getVideoId(url);
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/transcript?url=${id}`);
+      const response = await axios.get(`/api/transcript?url=${id}`);
       setTranscript(response.data.transcript);
       setError(null);
     } catch (error) {

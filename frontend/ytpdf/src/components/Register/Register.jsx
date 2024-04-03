@@ -14,7 +14,7 @@ function Register() {
   const handleRegisterForm = (e) => {
     e.preventDefault();
     axios
-    .post("http://localhost:3000/api/v1/users/register",{
+    .post("/api/v1/users/register",{
       fullName:fullname,username:username,email:email,password:password
     })
     .then((res) =>

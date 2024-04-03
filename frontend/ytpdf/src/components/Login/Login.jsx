@@ -37,7 +37,7 @@ const Login = () => {
         console.log("COOKIES1: ", cookies[0])
         e.preventDefault();
         axios
-            .post("http://localhost:3000/api/v1/users/login", {
+            .post("/api/v1/users/login", {
                 email: email, password: password
             })
             .then((res) => {

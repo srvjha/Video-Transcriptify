@@ -26,7 +26,7 @@ const MainPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/download?url=${url}`);
+      const response = await axios.get(`/api/download?url=${url}`);
       setData(response.data);
       setError(null);
     } catch (error) {

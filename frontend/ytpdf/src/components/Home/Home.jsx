@@ -17,7 +17,7 @@ const Home = () => {
 
     const handleLogoutForm = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3000/api/v1/users/logout", null, {
+        axios.post("/api/v1/users/logout", null, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
