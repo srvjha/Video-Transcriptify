@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect,useRef} from 'react';
 import axios from "axios";
 import getVideoId from 'get-video-id';
 import {
@@ -38,6 +38,7 @@ const GeneratePDF = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [transcript, setTranscript] = useState("");
+  const inputRef = useRef()
 
   const fetchAndStoreTranscript = async () => {
     const { id } = getVideoId(url);
@@ -49,37 +50,46 @@ const GeneratePDF = () => {
     } catch (error) {
       setError("Error fetching transcript. Please try again.");
       setTranscript("");
+      
     }
     setLoading(false);
   };
 
+  const fieldReset = ()=>{
+    setUrl("")
+  }
+  useEffect(()=>{
+    inputRef.current.focus()
+},[])
+
   return (
     <>
       <div className='mt-20'>
-        <div className="flex justify-center">
-          <label htmlFor="Youtube-Link" className="text-2xl font-medium mt-2 ">Youtube Link:</label>
+        <div className="flex justify-center  ml-[360px] p-2 rounded-2xl mr-[300px]">
+          
           <input
             type="text"
-            className="ml-2 p-2 h-14 w-[700px] text-black placeholder-black bg-transparent border border-black rounded-md text-lg"
+            className="outline-none ml-[200px] p-2 h-14 w-[700px] text-black placeholder-white bg-transparent border-none rounded-md text-lg"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required
+            ref={(input)=>(inputRef.current=input)}
             placeholder='Enter Your Youtube URL...'
           />
         </div>
 
         <div className='flex flex-col justify-center'>
           <div
-            className='bg-black pb-3 pt-3 pl-4 mt-6  h-12 w-32 ml-[780px] text-white text-[15px] rounded-md cursor-pointer'
-            onClick={fetchAndStoreTranscript}
+            className='bg-black pb-3 pt-3 pl-4 mt-6  h-12 w-32 ml-[740px] text-white text-[15px] rounded-md cursor-pointer'
+            onClick={()=>{ fetchAndStoreTranscript();fieldReset() }}
           >
             Generate PDF
           </div>
-          <div className='flex flex-col justify-center items-center ml-[160px] mt-4 '>
+          <div className='flex flex-col justify-center items-center ml-[83px] mt-4 '>
             {loading ? (
               "Loading..."
             ) : error ? (
-              "Error fetching transcript"
+              "Error generating notes"
             ) : transcript ? (
               <>
                 <PDFDownloadLink document={
@@ -99,7 +109,7 @@ const GeneratePDF = () => {
                   {({ blob, url, loading, error }) =>
                     loading ? "Loading document..." :
                     <div
-                    className='bg-black pb-3 pt-3 pl-4 mt-6  h-12 w-32  text-white text-[15px] rounded-md cursor-pointer'
+                    className='bg-black pb-3 pt-3 pl-4 mt-6 mr-2  h-12 w-32  text-white text-[15px] rounded-md cursor-pointer'
                     
                   >
                     Download PDF
@@ -108,7 +118,7 @@ const GeneratePDF = () => {
                 </PDFDownloadLink>
               </>
             ) : (
-              "Transcript will appear here once generated."
+              "Download Button Will Generate Here"
             )}
           </div>
         </div>

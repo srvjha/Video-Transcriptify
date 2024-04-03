@@ -15,8 +15,8 @@ const router = createBrowserRouter(
     <Route path='' element={<Home/>}/>
     <Route path='register' element={<Register/>}/>
     <Route path="login" element={<Login/>}/>   
-    <Route path="mainPage" element={<MainPage/>}/>
-    <Route path="generatePDF" element={<GeneratePDF/>}/>
+    <Route path="downloadPDF" element={<MainPage/>} />
+    {/* <Route path="generatePDF" element={<GeneratePDF/>}/> */}
     
     </Route>
   )

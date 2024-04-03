@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from "axios";
-import { YoutubeTranscript } from 'youtube-transcript';
-import getVideoId from 'get-video-id';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
+import GeneratePDF from '../GeneratePDF/GeneratePDF';
 
-
-
-// Rest of the code remains the same
 
 
 const MainPage = () => {
@@ -13,7 +10,17 @@ const MainPage = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [transcript, setTranscript] = useState("");
+  const location = useLocation();
+  const name = new URLSearchParams(location.search).get('name');
+  const [activePDF, setActivePDF] = useState(false);
+  const inputRef = useRef()
+  
+ 
+  // Handling focus of my input
+
+  useEffect(()=>{
+      inputRef.current.focus()
+  },[])
 
   const handleDownload = async (e) => {
     e.preventDefault();
@@ -29,18 +36,44 @@ const MainPage = () => {
     setLoading(false);
     setUrl("");
   };
-
  
+
+
 
 
   return (
     <>
-      <div className="flex justify-center">
-          <label htmlFor="Youtube-Link" className="text-2xl font-medium mt-2 ">Youtube Link:</label>
+      <div>
+      <div className='flex flex-row bg-black  text-white w-[610px] ml-[500px] mt-6  rounded-full font-semibold p-5 justify-end text-[15px]'>
+                        <div className=' flex flex-row '>
+                            <div className=' flex flex-row mr-10  '>
+                               
+                                <div className=' hover:bg-blue-800 rounded-xl p-2 cursor-pointer' onClick={()=>setActivePDF(true)} >GENERATE NOTES-PDF</div>
+                               
+                                <div className='hover:bg-blue-800 rounded-xl p-2 cursor-pointer'  onClick={()=>setActivePDF(false)}>DOWNLOAD VIDEO</div>
+                                
+                               
+                            </div>
+                            <div className=' flex flex-row space-x-3'>
+                                <div className=" bg-yellow-300 text-black rounded-lg p-2">{name}</div>
+                                <Link to="/">
+                                <div className=' cursor-pointer hover:bg-blue-800 rounded-md p-2' >LOGOUT</div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+      </div>
+     {activePDF ? <GeneratePDF/> :
+     <>
+      <div className="flex justify-center mt-10">
+       
+
+          
           <input
             type="text"
-            className="ml-2 p-2 h-14 w-[700px] text-black placeholder-black bg-transparent border border-black rounded-md text-lg"
+            className="outline-none ml-[200px] p-2 h-14 w-[700px] text-black placeholder-white bg-transparent border-none rounded-md text-lg"
             value={url}
+            ref={(input)=>(inputRef.current=input)}
             onChange={(e) => setUrl(e.target.value)}
             required
             placeholder='Enter Your Youtube URL...'
@@ -48,13 +81,13 @@ const MainPage = () => {
         </div>
 
       <div
-        className='bg-black pb-3 pt-3 pl-4 mt-6  h-12 w-32 ml-[780px] text-white text-[15px] rounded-md cursor-pointer'
+        className='bg-black pb-3 pt-3 pl-2 mt-6  h-12 w-32 ml-[740px] text-white text-[15px] rounded-md cursor-pointer'
         onClick={(e) => handleDownload(e)}
       >
         Download Video
       </div>
-      
-      
+      </>
+     }
       {loading && <div>Loading...</div>}
       {error && <div className="text-red-700 font-bold mt-4">{error}</div>}
       {data && (
@@ -99,10 +132,13 @@ const MainPage = () => {
             </tbody>
           </table>
           </div>
+      
           
           
         </>
+              
       )}
+              
     </>
   );
 };
