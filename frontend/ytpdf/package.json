@@ -1,7 +1,6 @@
 {
   "name": "ytpdf",
   "private": true,
-  "proxy": "https://video-transcriptify.vercel.app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
