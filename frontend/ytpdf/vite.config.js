@@ -5,7 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server:{
     proxy:{
-      '/api':"https://video-transcriptify-app.onrender.com"
+      target: 'https://video-transcriptify-app.onrender.com',
+      changeOrigin: true,
+      rewrite: path => path.replace(/^\/api/, '')
     }
   },
   plugins: [react()],
