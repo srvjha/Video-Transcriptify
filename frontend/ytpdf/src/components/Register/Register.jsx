@@ -14,7 +14,7 @@ function Register() {
   const handleRegisterForm = (e) => {
     e.preventDefault();
     axios
-    .post("/api/v1/users/register",{
+    .post("https://video-transcriptify-app.onrender.com/api/v1/users/register",{
       fullName:fullname,username:username,email:email,password:password
     })
     .then((res) =>
