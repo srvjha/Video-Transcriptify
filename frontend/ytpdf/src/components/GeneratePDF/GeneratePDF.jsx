@@ -45,10 +45,11 @@ const GeneratePDF = () => {
     setLoading(true);
     try {
       const response = await axios.get(`/api/transcript?url=${id}`);
+      console.log("RESPONSE : ",response)
       setTranscript(response.data.transcript);
       setError(null);
     } catch (error) {
-      setError("Error fetching transcript. Please try again.");
+      setError("Error fetching transcript. Please try again.",error);
       setTranscript("");
       
     }

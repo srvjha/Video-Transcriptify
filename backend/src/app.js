@@ -40,6 +40,7 @@ app.get('/api/transcript', async (req, res) => {
     try {
       const url = req.query.url;
       const transcript = await YoutubeTranscript.fetchTranscript(url);
+      console.log("Transcript ",transcript)
   
       return res.json({ transcript });
     } catch (error) {

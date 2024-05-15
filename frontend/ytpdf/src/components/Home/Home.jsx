@@ -11,7 +11,7 @@ const Home = () => {
     const [active, setActive] = useState(true);
     const [activePDF, setActivePDF] = useState(false);
    
-    const name = "Saurav Jha"
+    // const name = "Saurav Jha"
     
     const navigate = useNavigate();
 

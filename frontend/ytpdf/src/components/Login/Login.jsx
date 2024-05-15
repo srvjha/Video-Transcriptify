@@ -33,11 +33,10 @@ const Login = () => {
 
     // post data from frontend
     const handleLoginForm = (e) => {
-        console.log("COOKIES: ", cookies)
-        console.log("COOKIES1: ", cookies[0])
+       
         e.preventDefault();
         axios
-            .post("/api/v1/users/login", {
+            .post("https://video-transcriptify-app.onrender.com/api/v1/users/login", {
                 email: email, password: password
             })
             .then((res) => {

@@ -27,10 +27,12 @@ const MainPage = () => {
     setLoading(true);
     try {
       const response = await axios.get(`/api/download?url=${url}`);
+      console.log("RES :",response)
       setData(response.data);
       setError(null);
     } catch (error) {
       setError("Error downloading video. Please try again.");
+      console.log("ERROR: ",error)
       setData(null);
     }
     setLoading(false);

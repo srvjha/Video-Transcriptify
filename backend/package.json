@@ -21,7 +21,7 @@
     "express": "^4.18.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
-    "youtube-transcript": "^1.1.0",
+    "youtube-transcript": "github:sinedied/youtube-transcript#a10a073ac325b3b88018f321fa1bc5d62fa69b1c",
     "ytdl-core": "^4.11.5"
   }
 }
