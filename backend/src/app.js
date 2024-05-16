@@ -21,7 +21,7 @@ app.get('/',(req,res)=>{
     res.send("Everything is fine !!!")
 })
 
-app.get('/api/download', async (req, res) => {
+app.get('/api/v1/users/download', async (req, res) => {
     try {
         const url = req.query.url
         const videoId = await ytdl.getURLVideoID(url)
@@ -36,7 +36,7 @@ app.get('/api/download', async (req, res) => {
     }
 })
 
-app.get('/api/transcript', async (req, res) => {
+app.get('/api/v1/users/transcript', async (req, res) => {
     try {
       const url = req.query.url;
       const transcript = await YoutubeTranscript.fetchTranscript(url);
