@@ -10,33 +10,14 @@ const Login = () => {
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-//     useEffect(() => {
-//         // Access the cookies
-//         console.log("COOKIES: ", cookies)
-//         const authTokenCookie = cookies["sb-auth-auth-token.0"];
-//         // const authTokenObject = JSON.parse(authTokenCookie);
-//         // const accessToken = authTokenObject.access_token;
 
-// // Logging the access token
-//   console.log("Access Token:", authTokenCookie);
-
-//         console.log("COOKIES: ", setCookie)
-//        // console.log("COOKIE1: ",document.cookie)
-//         // const accessToken = cookies.accessToken;
-//         // const refreshToken = cookies.refreshToken;
-//         // console.log('Access Token:', accessToken);
-//         // console.log('Refresh Token:', refreshToken);
-        
-
-//         // You can use the tokens as needed
-//     }, [cookies]);
 
     // post data from frontend
     const handleLoginForm = (e) => {
        
         e.preventDefault();
         axios
-            .post("https://video-transcriptify-app.onrender.com/api/v1/users/login", {
+            .post("api/v1/users/login", {
                 email: email, password: password
             })
             .then((res) => {
