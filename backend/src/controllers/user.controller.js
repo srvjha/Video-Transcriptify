@@ -224,4 +224,8 @@ const refreshAccessToken  = asyncHandler(async(req,res)=>{
   }
 })
 
-export {registerUser,loginUser,logoutUser,refreshAccessToken}
+const getCurrentUser = asyncHandler(async(req,res)=>{
+   const user = req.userLogoutMiddleware
+   res.status(200).json(new ApiResponse(200,user,"User Details Fetched SuccessFully"))
+})
+export {registerUser,loginUser,logoutUser,refreshAccessToken,getCurrentUser}

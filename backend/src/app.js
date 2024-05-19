@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import ytdl from "ytdl-core"
 import { YoutubeTranscript } from 'youtube-transcript';
+import {enhanceWithGemini} from './api/gemini.api.js'
 
 
 const app =express();
@@ -39,8 +40,16 @@ app.get('/api/v1/users/download', async (req, res) => {
 app.get('/api/v1/users/transcript', async (req, res) => {
     try {
       const url = req.query.url;
-      const transcript = await YoutubeTranscript.fetchTranscript(url);
-      console.log("Transcript ",transcript)
+      const rawTranscript = await YoutubeTranscript.fetchTranscript(url);
+      console.log("Raw Transcript ",rawTranscript)
+      let collectData = ""
+      rawTranscript.forEach((data)=>{
+          collectData+=data.text
+      })
+      console.log("Data: ",collectData)
+      const transcript = await enhanceWithGemini(collectData)
+      console.log("Transcript: ",transcript)
+
   
       return res.json({ transcript });
     } catch (error) {

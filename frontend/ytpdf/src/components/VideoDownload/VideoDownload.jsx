@@ -1,18 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from "axios";
-import { Link, useLocation,useNavigate } from 'react-router-dom';
-import GeneratePDF from '../GeneratePDF/GeneratePDF';
 
-
-
-const MainPage = () => {
+const VideoDownload = () => {
   const [url, setUrl] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const location = useLocation();
-  const name = new URLSearchParams(location.search).get('name');
-  const [activePDF, setActivePDF] = useState(false);
+  
+  
   const inputRef = useRef()
   
  
@@ -44,33 +39,12 @@ const MainPage = () => {
 
 
   return (
-    <>
-      <div>
-      <div className='flex flex-row bg-black  text-white w-[610px] ml-[500px] mt-6  rounded-full font-semibold p-5 justify-end text-[15px]'>
-                        <div className=' flex flex-row '>
-                            <div className=' flex flex-row mr-10  '>
-                               
-                                <div className=' hover:bg-blue-800 rounded-xl p-2 cursor-pointer' onClick={()=>setActivePDF(true)} >GENERATE NOTES-PDF</div>
-                               
-                                <div className='hover:bg-blue-800 rounded-xl p-2 cursor-pointer'  onClick={()=>setActivePDF(false)}>DOWNLOAD VIDEO</div>
-                                
-                               
-                            </div>
-                            <div className=' flex flex-row space-x-3'>
-                                <div className=" bg-yellow-300 text-black rounded-lg p-2">{name}</div>
-                                <Link to="/">
-                                <div className=' cursor-pointer hover:bg-blue-800 rounded-md p-2' >LOGOUT</div>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-      </div>
-     {activePDF ? <GeneratePDF/> :
+    
+      
+    
      <>
       <div className="flex justify-center mt-10">
        
-
-          
           <input
             type="text"
             className="outline-none ml-[200px] p-2 h-14 w-[700px] text-black placeholder-white bg-transparent border-none rounded-md text-lg"
@@ -88,9 +62,9 @@ const MainPage = () => {
       >
         Download Video
       </div>
-      </>
-     }
-      {loading && <div>Loading...</div>}
+      
+    
+      {loading && <div className="my-4 flex justify-center">Loading...</div>}
       {error && <div className="text-red-700 font-bold mt-4">{error}</div>}
       {data && (
         <>
@@ -145,4 +119,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default VideoDownload;

@@ -25,7 +25,7 @@ const Login = () => {
                 formReset(e)
                 console.log(res)
                 console.log("ACCESSTOKEN: ",res.data.data.accessToken)
-                navigate("/", { state: { fullName: res.data.data.user.fullName , accessToken:res.data.data.accessToken} })
+                navigate("/home")
             })
             .catch((error) => console.error(error));
     };

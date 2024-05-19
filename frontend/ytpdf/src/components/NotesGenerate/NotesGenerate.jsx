@@ -10,6 +10,7 @@ import {
   PDFDownloadLink,
 } from "@react-pdf/renderer";
 
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor:"white",
@@ -33,12 +34,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const GeneratePDF = () => {
+const NotesGenerate = () => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [transcript, setTranscript] = useState("");
+  const [fileName,setFileName] = useState("")
   const inputRef = useRef()
+
+  const removeAsterisks = (text) => {
+    return text.replace(/\*\*/g, '').replace(/\*/g, '•');
+  };
 
   const fetchAndStoreTranscript = async () => {
     const { id } = getVideoId(url);
@@ -46,7 +52,8 @@ const GeneratePDF = () => {
     try {
       const response = await axios.get(`/api/v1/users/transcript?url=${id}`);
       console.log("RESPONSE : ",response)
-      setTranscript(response.data.transcript);
+      const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
+      setTranscript(cleanedTranscript);
       setError(null);
     } catch (error) {
       setError("Error fetching transcript. Please try again.",error);
@@ -65,6 +72,7 @@ const GeneratePDF = () => {
 
   return (
     <>
+   
       <div className='mt-20'>
         <div className="flex justify-center  ml-[360px] p-2 rounded-2xl mr-[300px]">
           
@@ -76,6 +84,18 @@ const GeneratePDF = () => {
             required
             ref={(input)=>(inputRef.current=input)}
             placeholder='Enter Your Youtube URL...'
+          />
+        </div>
+
+        <div className="flex justify-center ml-[360px] p-2 rounded-2xl mr-[300px] mt-4">
+          <input
+            type="text"
+            className="outline-none ml-[200px] p-2 h-14 w-[700px] text-black placeholder-white bg-transparent border-none rounded-md text-lg"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+            ref={(input)=>(inputRef.current=input)}
+            required
+            placeholder='Enter Your PDF File Name...'
           />
         </div>
 
@@ -99,14 +119,14 @@ const GeneratePDF = () => {
                       <View style={styles.section}>
                         <Text style={styles.title}>NOTES</Text>
                       </View>
-                      {transcript.map((item, index) => (
-                        <View key={index} style={styles.section}>
-                          <Text>{item.text}</Text>
+                      
+                        <View style={styles.section}>
+                          <Text>{transcript}</Text>
                         </View>
-                      ))}
+                      
                     </Page>
                   </Document>
-                } fileName="notes.pdf">
+                } fileName={fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`}>
                   {({ blob, url, loading, error }) =>
                     loading ? "Loading document..." :
                     <div
@@ -128,4 +148,4 @@ const GeneratePDF = () => {
   );
 };
 
-export default GeneratePDF;
+export default NotesGenerate;
