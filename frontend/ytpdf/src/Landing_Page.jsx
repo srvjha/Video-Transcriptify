@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation,useNavigate } from 'react-router-dom';
-import Home1 from './components/Home/Home';
+import Home from './components/Home/Home';
 
 const Landing_Page = () => {
   return (
@@ -16,7 +16,7 @@ const Landing_Page = () => {
                             </Link>
                         </div>
                     </div>
-        <Home1/>
+        <Home/>
     </div>
   )
 }
