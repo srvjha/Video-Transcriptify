@@ -37,7 +37,9 @@ const NotesGenerate = () => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [errorUrl, setErrorURL] = useState("");
   const [transcript, setTranscript] = useState("");
+  const [langchange,setLangChange] = useState(false)
   const [fileName, setFileName] = useState("")
   const inputRef = useRef()
 
@@ -68,15 +70,66 @@ const NotesGenerate = () => {
     inputRef.current.focus()
   }, [])
 
+  const handleOptionChange = (e) => {
+    
+    console.log(e.target.value);
+    if(e.target.value=="option1")
+      {
+        setLangChange(true)
+       
+      }
+    else
+    {
+      setLangChange(false)
+      
+    }
+   
+   
+}
+ const handleURL = (e)=>{
+  if(langchange)
+    {
+      setUrl(e.target.value)
+      setErrorURL("")
+    }
+    else
+    {
+      setErrorURL("Please select the language!");
+      setTimeout(() => setErrorURL(""), 2000);
+    }
+ 
+ 
+
+ }
+
   return (
     <>
       <div className='mt-20'>
+        <div className=' flex flex-col'>
+        <div className="flex  p-2 rounded-2xl mx-auto w-full max-w-[700px]">
+      <select className="cursor-pointer bg-white rounded-md p-2 w-[220px] text-center bg-transparent border-none focus:outline-none" onChange={handleOptionChange}>
+                    <option value="">Select Language</option>
+                    <option value="option1">English</option>
+       </select>
+        </div>
+        <div className=' ml-[425px] mr-[780px]'>
+        {errorUrl && 
+        <div className=' flex flex-row '>
+         <div class="h-[44px] mt-[4px] w-2 border  rounded-s-lg bg-red-700 mx-4 ml-[1px]  "></div>
+        <div className="text-white-600  p-2 border rounded-e-lg  bg-gray-200 text-black font-semibold -ml-4 mt-1">{errorUrl}</div>
+        </div>
+        }
+        </div>
+       
+        </div>
+     
         <div className="flex justify-center p-2 rounded-2xl mx-auto w-full max-w-[700px]">
+          
           <input
             type="text"
             className="outline-none p-2 h-14 w-full text-black placeholder-white bg-transparent border-none rounded-md text-lg"
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => handleURL(e)}
             required
             ref={inputRef}
             placeholder='Enter Your Youtube URL...'
