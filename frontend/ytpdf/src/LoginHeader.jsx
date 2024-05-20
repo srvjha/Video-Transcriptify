@@ -58,7 +58,7 @@ const LoginHeader = ({ name, token }) => {
                     </svg>
                     </div>
                 </Link>
-                <div className="bg-yellow-300 text-black rounded-lg p-2 text-center">{fullName}</div>
+                <div className="bg-yellow-300 text-black rounded-lg p-2 sm:text-[15px] text-[10px] text-center">{fullName}</div>
                 <div className='cursor-pointer hover:bg-blue-800 rounded-md p-2 text-center' onClick={handleLogoutForm}>
                     {/* Show text "Logout" on larger screens */}
                     <div className="hidden sm:block">Logout</div>
