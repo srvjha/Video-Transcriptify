@@ -41,7 +41,7 @@ const registerUser = asyncHandler(async (req,res)=>{
    // check for user data validation
   if([fullName,username,email,password].some((field)=>field?.trim()===""))
   {
-    throw new ApiError(400,"All Fields are required 🤬!.")
+    throw new ApiError(400,"All Fields are required 😤!.")
   }
   
    // Check if user is already existed
@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req,res)=>{
    console.log("EXISTED USER: ",existedUser)
    if(existedUser)
    {
-    throw new ApiError(409,"User Already Existed")
+    throw new ApiError(409,"User Already Existed!")
    }
 
     // now create user
