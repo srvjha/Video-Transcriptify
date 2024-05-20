@@ -7,13 +7,15 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [store, setStore] = useState("");
+    const [error,setError] = useState("")
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
-
-
+    
+    
 
     // post data from frontend
     const handleLoginForm = (e) => {
+         // Validate email and password
+        
        
         e.preventDefault();
         axios
@@ -23,11 +25,20 @@ const Login = () => {
             .then((res) => {
                 setStore(res.data.data.user.fullName)
                 formReset(e)
-                console.log(res)
-                console.log("ACCESSTOKEN: ",res.data.data.accessToken)
+                // console.log(res)
+                // console.log("ACCESSTOKEN: ",res.data.data.accessToken)
                 navigate("/home")
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+                if (error.response && error.response.data && error.response.data.message) {
+                  console.log("response", error.response.data.message);
+                  setError(error.response.data.message);
+                  setTimeout(() => setError(""), 2000);
+                } else {
+                  setError("An unexpected error occurred.");
+                  setTimeout(() => setError(""), 2000);
+                }
+              });
     };
 
     // cleaning the field
@@ -37,9 +48,12 @@ const Login = () => {
         setPassword("")
     }
 
+    
+    
+
     return (
         <div>
-            <section className="bg-gray-50 dark:bg-gray-900">
+            <section className="bg-gray-50 dark:bg-gray-900 sm:mt-0 sm:ml-0 sm:mr-0 mt-[133px] ml-2 mr-2">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
 
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -59,7 +73,12 @@ const Login = () => {
 
 
                                 <button type="submit" onClick={(e) => { handleLoginForm(e); formReset(e); }} className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-300 dark:focus:ring-primary-800">Sign in</button>
-
+                                {error && 
+                                    <div className=' flex flex-row '>
+                                    <div class="h-[44px] mt-[4px] w-2 border  rounded-s-lg bg-red-700 mx-4 ml-[1px]  "></div>
+                                    <div className="text-white-600  p-2 border rounded-e-lg  bg-gray-200 text-black font-semibold -ml-4 mt-1">{error}</div>
+                                    </div>
+                                }
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                     Don’t have an account yet?
                                     <Link to="/register" className="font-medium text-primary-600 hover:underline dark:text-blue-500">Sign up</Link>
