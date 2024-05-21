@@ -13,17 +13,23 @@ const model = genAI.getGenerativeModel({ model: "gemini-pro"});
 export async function  enhanceWithGemini(transcript) {
     const prompt =
      `
-     Generate notes based on the following  ${transcript}:
+    
 
-[Transcript]
+[**Please note:** The following transcript may contain inappropriate language. If encountered, do your best to summarize the key points ethically and avoid including offensive content in the notes.
 
-Instructions:
-1. Please create concise notes summarizing the key points and highlights from the transcript.
-2. Ensure that the generated notes are clear, coherent, and free from sensitive or inappropriate language.
-3. Avoid using any special characters or syntax such as "*" as the notes will be stored in a PDF format.
-4. If you encounter any errors or inappropriate content in the generated notes, please include a message indicating the issue along with the corrected text.
-
-Thank you for your assistance!
+     Generate notes based on the following ${transcript}:
+     
+     ${transcript}
+     
+     **Instructions:**
+     
+     1. Please create concise notes summarizing the key points and highlights from the transcript.
+     2. **In case of encountering inappropriate content, prioritize summarizing the key points ethically and omit any offensive language or themes.**
+     3. Ensure that the generated notes are clear, coherent, and suitable for all audiences.
+     4. Avoid using any special characters or syntax such as "*" as the notes will be stored in a PDF format.
+     5. If the transcript is entirely inappropriate for summarization, please state: "The provided transcript contains extensive inappropriate content that cannot be ethically summarized. Please consider providing a different transcript or editing the current one."
+     
+     Thank you for your assistance!
 
      `
   
