@@ -9,18 +9,24 @@ import Landing_Page from './Landing_Page.jsx'
 import Home from './components/Home/Home.jsx'
 import NotesGenerate from './components/NotesGenerate/NotesGenerate.jsx'
 import VideoDownload from './components/VideoDownload/VideoDownload.jsx'
+import PrivateRoute from './components/Route/PrivateRoute.jsx'
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>   
       <Route path='' element={<Landing_Page/>}/>   
       <Route path='register' element={<Register/>}/>
-      <Route path="login" element={<Login/>}/>        
+      <Route path="login" element={<Login/>}/>  
+     
       <Route path='/' element={<LoginLayout/>}>
-      <Route path="home" element={<Home/>}/> 
-      <Route path="generate-notes" element={<NotesGenerate/>}/>  
-      <Route path='download-video' element={<VideoDownload/>}/>
+      <Route  element={<PrivateRoute/>}>
+        <Route path='home' element={<Home />} />
+        <Route path='generate-notes' element={<NotesGenerate />} />
+        <Route path='download-video' element={<VideoDownload />} />
       </Route> 
+      </Route>
     </Route>
     
    
@@ -29,6 +35,6 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-   <RouterProvider router={router}/>
+    <RouterProvider router={router}/>
   </React.StrictMode>
 )

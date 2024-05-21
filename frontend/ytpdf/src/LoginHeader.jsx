@@ -5,26 +5,26 @@ import home from './assets/homeImg.png'
 import pdf from './assets/pdf.png'
 import logout from './assets/logout.png'
 
-const LoginHeader = ({ name, token }) => {
-    const fullName = name;
-    const accessToken = token;
+
+const LoginHeader = ({ name }) => {
+    const fullName = name;  
     const navigate = useNavigate();
     const [active,setActive] = useState('btn1')
+    
+    
 
     const handleLogoutForm = (e) => {
         e.preventDefault();
-        axios.post("/api/v1/users/logout", null, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        })
+        axios.post("/api/v1/users/logout")
         .then((res) => {
-            console.log(res);
+           
             navigate("/");
+            localStorage.removeItem('accessToken');
         })
         .catch((error) => {
             console.error("Logout failed:", error);
         });
+       
     }
 
     

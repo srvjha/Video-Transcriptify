@@ -6,14 +6,14 @@ import LoginHeader from './LoginHeader'
 
 const  LoginLayout = () => {
   const [name,setName] = useState("")
-  const [accessToken,setAccessToken] = useState("")
+  
 
   const getUserDetails = ()=>{
     axios.get("/api/v1/users/get-current-user")
     .then((res)=>{
-        console.log("DATA:",res)
+        //console.log("DATA:",res)
         setName(res.data.data.fullName)
-        setAccessToken(res.data.data.accessToken)
+       
     })
 
   }
@@ -24,7 +24,7 @@ const  LoginLayout = () => {
      
   return (
     <>
-     <LoginHeader name = {name} token={accessToken}/>
+     <LoginHeader name = {name}/>
       <Outlet/>
     </>
   )

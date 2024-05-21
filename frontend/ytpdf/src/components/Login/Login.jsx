@@ -1,32 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [store, setStore] = useState("");
     const [error,setError] = useState("")
+    const [isLoggedIn,setLoggedIn] = useState(false)
+   
     const navigate = useNavigate();
+   
     
     
 
     // post data from frontend
     const handleLoginForm = (e) => {
-         // Validate email and password
         
-       
         e.preventDefault();
         axios
             .post("api/v1/users/login", {
                 email: email, password: password
             })
             .then((res) => {
-                setStore(res.data.data.user.fullName)
+                // login(res.data.data.user)
+                setLoggedIn(true)
                 formReset(e)
+                               
+                localStorage.setItem('accessToken', res.data.data.accessToken);
                 // console.log(res)
                 // console.log("ACCESSTOKEN: ",res.data.data.accessToken)
+               
                 navigate("/home")
             })
             .catch((error) => {
@@ -48,6 +52,9 @@ const Login = () => {
         setPassword("")
     }
 
+    const checkLogIn  = ()=>{
+        return isLoggedIn
+    }
     
     
 
