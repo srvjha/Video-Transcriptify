@@ -27,7 +27,8 @@ export async function  enhanceWithGemini(transcript) {
      2. **In case of encountering inappropriate content, prioritize summarizing the key points ethically and omit any offensive language or themes.**
      3. Ensure that the generated notes are clear, coherent, and suitable for all audiences.
      4. Avoid using any special characters or syntax such as "*" as the notes will be stored in a PDF format.
-     5. If the transcript is entirely inappropriate for summarization, please state: "The provided transcript contains extensive inappropriate content that cannot be ethically summarized. Please consider providing a different transcript or editing the current one."
+     5. If the transcript includes any abuses for summarization then only, state this: "The provided transcript contains extensive inappropriate content that cannot be ethically summarized. Please consider providing a different transcript or editing the current one,
+      but keep in mind that you have to provide notes so just remove inappropriate and provide clean notes"
      
      Thank you for your assistance!
 
