@@ -50,8 +50,9 @@ function Register() {
     if(!box)
       {
         setError("Accept the terms and conditons to proceed..")
+        console.log("box ticked: ",box)
         setPasswordError(false)
-        return
+        return;
       }
 
 
@@ -76,6 +77,7 @@ function Register() {
   useEffect(() => {
     setShowPassword(true);
     setBox(false)
+    
   }, []);
 
 
@@ -146,10 +148,10 @@ function Register() {
                 </div>
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
-                    <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required />
+                    <input id="terms" aria-describedby="terms" type="checkbox" onChange={(e)=>{console.log("I m Clicked");setBox(e.target.checked)}} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300" onClick={()=>setBox(true)} required>I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="https://www.termsandconditionsgenerator.com/live.php?token=PKXA1MVVzVzdAVqgUKdpwMsYiJ0lbkf2">Terms and Conditions</a></label>
+                    <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300"  required>I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="https://www.termsandconditionsgenerator.com/live.php?token=PKXA1MVVzVzdAVqgUKdpwMsYiJ0lbkf2">Terms and Conditions</a></label>
                   </div>
                 </div>
                 <button onClick={(e) => handleRegisterForm(e)} className="w-full dark:text-white text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 bg-blue-600 dark:hover:bg-primary-700 hover:bg-primary-700 ">
