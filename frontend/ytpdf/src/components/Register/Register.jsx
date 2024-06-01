@@ -40,7 +40,7 @@ function Register() {
     }
 
     // Password validation
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,15}$/;
     if (!passwordRegex.test(password)) {
       setPasswordError(true)
       setError("Password must be only 8 characters long, contain at least one uppercase letter, one number, and one special character (!@#$%^&*)");
@@ -154,7 +154,8 @@ function Register() {
                     <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300"  required>I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="https://www.termsandconditionsgenerator.com/live.php?token=PKXA1MVVzVzdAVqgUKdpwMsYiJ0lbkf2">Terms and Conditions</a></label>
                   </div>
                 </div>
-                <button onClick={(e) => handleRegisterForm(e)} className="w-full dark:text-white text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 bg-blue-600 dark:hover:bg-primary-700 hover:bg-primary-700 ">
+                <button onClick={(e) => handleRegisterForm(e)} 
+                className="w-full dark:text-white text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 bg-blue-600 dark:hover:bg-primary-700 hover:bg-primary-700 ">
                   Create an account
                 </button>
                 {error &&
