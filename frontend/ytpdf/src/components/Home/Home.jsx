@@ -8,8 +8,8 @@ const Home = () => {
        <div className=' text-center text-[40px] text-black'>
                             <div className=" py-10">
                                 <div className="max-w-6xl mx-auto px-4">
-                                    <h1 className="text-4xl font-bold text-center mb-8">Welcome to Youtube Transform!</h1>
-                                    <p className="text-lg text-center mb-8">At Youtube Explo, we provide you with a seamless solution to download <span className='font-bold'>Free</span> YouTube videos and convert them into PDF notes effortlessly. Whether you're a student preparing for exams, a professional gathering research material, or simply someone who enjoys learning from online videos, we've got you covered.</p>
+                                    <h1 className="text-4xl font-bold text-center mb-8">Welcome to Video Transcriptify!</h1>
+                                    <p className="text-lg text-center mb-8">At Video Transcriptify, we provide you with a seamless solution to download <span className='font-bold'>Free</span> YouTube videos and convert them into PDF notes effortlessly. Whether you're a student preparing for exams, a professional gathering research material, or simply someone who enjoys learning from online videos, we've got you covered.</p>
                                     <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
                                         <h2 className="text-2xl font-bold mb-4">Features:</h2>
                                         <ul className="list-disc pl-5 text-xl text-left">
