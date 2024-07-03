@@ -228,4 +228,10 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
    const user = req.userLogoutMiddleware
    res.status(200).json(new ApiResponse(200,user,"User Details Fetched SuccessFully"))
 })
-export {registerUser,loginUser,logoutUser,refreshAccessToken,getCurrentUser}
+
+const healthCare = asyncHandler(async(req,res)=>{
+  
+      res.status(200).send('Server is up and running');
+  
+})
+export {registerUser,loginUser,logoutUser,refreshAccessToken,getCurrentUser,healthCare}
