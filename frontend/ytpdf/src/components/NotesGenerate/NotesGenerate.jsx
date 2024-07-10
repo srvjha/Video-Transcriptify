@@ -9,6 +9,7 @@ import {
   StyleSheet,
   PDFDownloadLink,
 } from "@react-pdf/renderer";
+import { Oval } from 'react-loader-spinner';
 
 const styles = StyleSheet.create({
   page: {
@@ -47,20 +48,31 @@ const NotesGenerate = () => {
     return text.replace(/\*\*/g, '').replace(/\*/g, '•');
   };
 
+  const isValidYouTubeUrl = (url) => {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    return regex.test(url);
+  };
+
   const fetchAndStoreTranscript = async () => {
-    const { id } = getVideoId(url);
-    setLoading(true);
-    try {
-      const response = await axios.get(`/api/v1/users/transcript?url=${id}`);
-      console.log("RESPONSE : ", response)
-      const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
-      setTranscript(cleanedTranscript);
-      setError(null);
-    } catch (error) {
-      setError("Error fetching transcript. Please try again.", error);
-      setTranscript("");
+    if(isValidYouTubeUrl(url)){
+      const { id } = getVideoId(url);
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/v1/users/transcript?url=${id}`);
+        console.log("RESPONSE : ", response)
+        const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
+        setTranscript(cleanedTranscript);
+        setError(null);
+      } catch (error) {
+        setError("Error fetching transcript. Please try again.", error);
+        setTranscript("");
+      }
+      setLoading(false);
     }
-    setLoading(false);
+    else{
+      setErrorURL("Please enter a valid YouTube URL")
+    }
+   
   };
 
   const fieldReset = () => {
@@ -156,9 +168,26 @@ const NotesGenerate = () => {
           </div>
           <div className='flex flex-col justify-center items-center mt-4'>
             {loading ? (
-              "Loading..."
+               <div className='flex flex-col justify-center items-center'>
+               <Oval
+                 height={50}
+                 width={50}
+                 color="white"
+                 wrapperStyle={{}}
+                 wrapperClass=""
+                 visible={true}
+                 ariaLabel='oval-loading'
+                 secondaryColor="black"
+                 strokeWidth={4}
+                 strokeWidthSecondary={4}
+               />
+               <p className='mt-2 text-xl'>Loading...</p>
+             </div>
             ) : error ? (
-              "Error generating notes"
+              <div className=' font-bold bg-white text-black text-xl p-2'>
+               Failed to locate a transcript for this video,Try Another Video😔!
+              </div>
+              
             ) : transcript ? (
               <>
                 <PDFDownloadLink document={
