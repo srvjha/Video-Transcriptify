@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/v1/:path*",
-      "destination": "https://video-transcriptify-app.onrender.com/api/v1/:path*"
+      "destination": "https://video-transcriptify.onrender.com/api/v1/:path*"
     },
     {
       "source": "/(.*)",
