@@ -102,7 +102,7 @@ app.get('/api/v1/users/transcript', async (req, res) => {
     try {
       const url = req.query.url;
       const rawTranscript = await YoutubeTranscript.fetchTranscript(url);
-      //console.log("Raw Transcript ",rawTranscript)
+      console.log("Raw Transcript ",rawTranscript)
       let collectData = ""
       rawTranscript.forEach((data)=>{
           collectData+=data.text
