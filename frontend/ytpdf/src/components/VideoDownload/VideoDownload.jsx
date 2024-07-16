@@ -17,10 +17,15 @@ const VideoDownload = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.get(`/api/v1/users/download?url=${url}`);
+      const response = await axios.get(`/api/v1/users/download?url=${encodeURIComponent(url)}`);
       console.log("RES :", response);
-      setData(response.data);
-      setError(null);
+      if (response.status === 200 && response.data) {
+        setData(response.data);
+        setError(null);
+      } else {
+        setError("Error downloading video. Please try again.");
+        setData(null);
+      }
     } catch (error) {
       setError("Error downloading video. Please try again.");
       console.log("ERROR: ", error);
@@ -37,7 +42,7 @@ const VideoDownload = () => {
           type="text"
           className="outline-none p-2 h-14 w-full max-w-[700px] text-black placeholder-white bg-transparent border-none rounded-md text-lg"
           value={url}
-          ref={(input) => (inputRef.current = input)}
+          ref={inputRef}
           onChange={(e) => setUrl(e.target.value)}
           required
           placeholder='Enter Your Youtube URL...'
@@ -75,16 +80,16 @@ const VideoDownload = () => {
                 </tr>
               </thead>
               <tbody className='bg-blue-500'>
-                {data.info.map((formatName, index) => (
+                {data.info.map((format, index) => (
                   <tr key={index} className='text-lg border-t border-gray-600'>
-                    <td className="p-2">{formatName.mimeType.startsWith("video/") ? "Video" : "Audio"}</td>
-                    <td className="p-2">{formatName.hasVideo ? formatName.height + "p" : "-"}</td>
-                    <td className="p-2">{formatName.mimeType.split(";")[0]}</td>
+                    <td className="p-2">{format.hasVideo===true ? "Video" : "Audio"}</td>
+                    <td className="p-2">{format.hasVideo ? `${format.height}p` : "-"}</td>
+                    <td className="p-2">{format.mimeType.split(";")[0]}</td>
                     <td className="p-2">
                       <a
-                        href={formatName.url}
+                        href={format.url}
                         target="_blank"
-                        download
+                        rel="noopener noreferrer"
                         className="outline-none italic underline"
                       >
                         Download
