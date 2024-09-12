@@ -5,7 +5,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server:{
     proxy:{
-     '/api': 'http://localhost:3000',
+        // ---> Local SERVER LINK
+     // '/api': 'http://localhost:3000',
+
+      //--> Production SERVER LINK
+       '/api': 'https://video-transcriptify.onrender.com', 
       
      
     }

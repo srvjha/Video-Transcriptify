@@ -18,7 +18,7 @@ const VideoDownload = () => {
     setLoading(true);
     try {
       const response = await axios.get(`/api/v1/users/download?url=${encodeURIComponent(url)}`);
-      console.log("RES :", response);
+     // console.log("RES :", response);
       if (response.status === 200 && response.data) {
         setData(response.data);
         setError(null);
