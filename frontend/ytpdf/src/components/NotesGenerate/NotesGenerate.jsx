@@ -59,7 +59,7 @@ const NotesGenerate = () => {
       // const { id } = getVideoId(url);
       setLoading(true);
       try {
-        const response = await axios.post('/api/v1/users/transcript', { videoUrl: url });
+        const response = await axios.post('https://video-transcriptify.onrender.com/api/v1/users/transcript', { videoUrl: url });
         console.log("RESPONSE : ", response)
        // const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
         setTranscript(response.data.data.transcript);
