@@ -10,6 +10,7 @@ import fs from 'fs'
 import { enhanceWithGemini } from "../api/gemini.api.js";
 
 
+
 const videoTranscript = asyncHandler(async (req, res) => {
     try{
     const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +24,7 @@ const videoTranscript = asyncHandler(async (req, res) => {
     // Step 1: Get the video title
     const videoInfo = await youtubedl(url, {
         dumpSingleJson: true,
-        cookies: path.resolve(__dirname, 'config', 'youtube-cookies.txt')
+        cookies: path.resolve(__dirname, '../../config/youtube-cookies.txt')
     });
 
     const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
