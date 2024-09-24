@@ -10,6 +10,8 @@ import fs from 'fs'
 import { enhanceWithGemini } from "../api/gemini.api.js";
 
 
+const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
+console.log("UploadDir: ",uploadsDir)
 
 
 const videoTranscript = asyncHandler(async (req, res) => {
@@ -30,7 +32,7 @@ const videoTranscript = asyncHandler(async (req, res) => {
 
     const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
     const audioFileName = `${videoTitle.replace(/ /g, '-')}.mp3`; // Convert spaces to dashes
-    const uploadsDir =  '/uploads';
+  
 
     // Step 2: Ensure the uploads directory exists
     if (!await fs.promises.access(uploadsDir).catch(() => false)) {
