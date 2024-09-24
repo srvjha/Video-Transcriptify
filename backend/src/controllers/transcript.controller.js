@@ -30,7 +30,7 @@ const videoTranscript = asyncHandler(async (req, res) => {
 
     const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
     const audioFileName = `${videoTitle.replace(/ /g, '-')}.mp3`; // Convert spaces to dashes
-    const uploadsDir = path.resolve(__dirname, '../../public/uploads');
+    const uploadsDir =  '/uploads';
 
     // Step 2: Ensure the uploads directory exists
     if (!await fs.promises.access(uploadsDir).catch(() => false)) {
