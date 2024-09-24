@@ -23,6 +23,8 @@ const videoTranscript = asyncHandler(async (req, res) => {
     // Step 1: Get the video title
     const videoInfo = await youtubedl(url, {
         dumpSingleJson: true,
+        username: process.env.YOUTUBE_USERNAME,
+        password: process.env.YOUTUBE_PASSWORD
     });
 
     const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
