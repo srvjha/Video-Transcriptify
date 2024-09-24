@@ -169,7 +169,21 @@ const NotesGenerate = () => {
           </div>
           <div className='flex flex-col justify-center items-center mt-4'>
             {loading ? (
-              <FileProcessing/>
+              <div className='flex flex-col justify-center items-center'>
+              <Oval
+                height={50}
+                width={50}
+                color="white"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel='oval-loading'
+                secondaryColor="black"
+                strokeWidth={4}
+                strokeWidthSecondary={4}
+              />
+              <p className='mt-2 text-xl'>Loading...</p>
+              </div>
             ) : error ? (
               <div className=' font-bold bg-white text-black text-xl p-2'>
                Failed to locate a transcript for this video,Try Another Video😔!
