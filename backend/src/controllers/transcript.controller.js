@@ -9,6 +9,8 @@ import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import fs from 'fs'
 import { enhanceWithGemini } from "../api/gemini.api.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
 console.log("UploadDir: ",uploadsDir)
@@ -16,9 +18,7 @@ console.log("UploadDir: ",uploadsDir)
 
 const videoTranscript = asyncHandler(async (req, res) => {
     try{
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-    
+     
     const client = new AssemblyAI({
         apiKey: process.env.ASSEMBLY_API_KEY
     });
