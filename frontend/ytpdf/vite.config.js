@@ -10,7 +10,7 @@ export default defineConfig({
 
       //--> Production SERVER LINK
       //  '/api': 'https://video-transcriptify.onrender.com', --> v1
-      '/api': 'https://video-transcriptify-1.onrender.com', 
+      //'/api': 'https://video-transcriptify-1.onrender.com', 
       
 
 
