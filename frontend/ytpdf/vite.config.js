@@ -6,11 +6,11 @@ export default defineConfig({
   server:{
     proxy:{
         // ---> Local SERVER LINK
-      '/api': 'http://localhost:3000',
+      //'/api': 'http://localhost:3000',
 
       //--> Production SERVER LINK
       //  '/api': 'https://video-transcriptify.onrender.com', --> v1
-      //'/api': 'https://video-transcriptify-1.onrender.com', 
+      '/api': 'https://video-transcriptify-1.onrender.com', 
       
 
 
