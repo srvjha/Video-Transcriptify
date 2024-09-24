@@ -11,6 +11,7 @@ import { enhanceWithGemini } from "../api/gemini.api.js";
 
 
 const videoTranscript = asyncHandler(async (req, res) => {
+    try{
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     
@@ -101,6 +102,11 @@ const videoTranscript = asyncHandler(async (req, res) => {
             next(err); // Pass error to the error handler
         }
     }, 1000); // Poll every 5 seconds
+}
+catch(error){
+    console.log(error);
+    throw new ApiError(400,`Error Occured ${error}`)
+}
 });
 
 
