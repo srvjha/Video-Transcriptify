@@ -10,6 +10,7 @@ import {
   PDFDownloadLink,
 } from "@react-pdf/renderer";
 import { Oval } from 'react-loader-spinner';
+import FileProcessing from '../../utils/FileProcessing';
 
 const styles = StyleSheet.create({
   page: {
@@ -55,13 +56,13 @@ const NotesGenerate = () => {
 
   const fetchAndStoreTranscript = async () => {
     if(isValidYouTubeUrl(url)){
-      const { id } = getVideoId(url);
+      // const { id } = getVideoId(url);
       setLoading(true);
       try {
-        const response = await axios.get(`/api/v1/users/transcript?url=${id}`);
-        //console.log("RESPONSE : ", response)
-        const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
-        setTranscript(cleanedTranscript);
+        const response = await axios.post('/api/v1/video/transcript', { videoUrl: url });
+        console.log("RESPONSE : ", response)
+       // const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
+        setTranscript(response.data.data.transcript);
         setError(null);
       } catch (error) {
         setError("Error fetching transcript. Please try again.", error);
@@ -168,21 +169,7 @@ const NotesGenerate = () => {
           </div>
           <div className='flex flex-col justify-center items-center mt-4'>
             {loading ? (
-               <div className='flex flex-col justify-center items-center'>
-               <Oval
-                 height={50}
-                 width={50}
-                 color="white"
-                 wrapperStyle={{}}
-                 wrapperClass=""
-                 visible={true}
-                 ariaLabel='oval-loading'
-                 secondaryColor="black"
-                 strokeWidth={4}
-                 strokeWidthSecondary={4}
-               />
-               <p className='mt-2 text-xl'>Loading...</p>
-             </div>
+              <FileProcessing/>
             ) : error ? (
               <div className=' font-bold bg-white text-black text-xl p-2'>
                Failed to locate a transcript for this video,Try Another Video😔!

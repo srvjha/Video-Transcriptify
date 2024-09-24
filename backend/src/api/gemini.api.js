@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro"});
 
 export async function  enhanceWithGemini(transcript) {
-    const prompt =`Generate Notes Based on the ${transcript}`
+    const prompt =`Generate Notes Based on the ${transcript} in proper Structured Way`
    
   
     const result = await model.generateContent(prompt);
