@@ -8,7 +8,7 @@ import path,{ dirname } from 'path';
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import fs from 'fs'
 import { enhanceWithGemini } from "../api/gemini.api.js";
-import png from '../../public/uploads'
+
 
 
 
