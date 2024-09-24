@@ -19,7 +19,6 @@ const videoTranscript = asyncHandler(async (req, res) => {
     });
 
     const { videoUrl: url } = req.body;
-
     // Step 1: Get the video title
     const videoInfo = await youtubedl(url, {
         dumpSingleJson: true,
