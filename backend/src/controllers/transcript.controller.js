@@ -8,6 +8,7 @@ import path,{ dirname } from 'path';
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import fs from 'fs'
 import { enhanceWithGemini } from "../api/gemini.api.js";
+import png from '../../public/uploads'
 
 
 
@@ -29,7 +30,7 @@ const videoTranscript = asyncHandler(async (req, res) => {
 
     const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
     const audioFileName = `${videoTitle.replace(/ /g, '-')}.mp3`; // Convert spaces to dashes
-    const uploadsDir = path.resolve(__dirname, '../../', 'public', 'uploads');
+    const uploadsDir = path.resolve(__dirname, '../../public/uploads');
 
     // Step 2: Ensure the uploads directory exists
     if (!await fs.promises.access(uploadsDir).catch(() => false)) {
