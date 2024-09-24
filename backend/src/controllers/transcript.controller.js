@@ -104,6 +104,12 @@ const videoTranscript = asyncHandler(async (req, res) => {
 });
 
 
+const checkMe = asyncHandler(async(req,res)=>{
+    return res.status(201).json(
+        new ApiResponse(200,"Its Working Here")
+     )
+})
 export{
-    videoTranscript
+    videoTranscript,
+    checkMe
 }
