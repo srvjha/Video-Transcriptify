@@ -1,5 +1,7 @@
 import { YoutubeTranscript } from 'youtube-transcript';
 import {enhanceWithGemini} from '../api/gemini.api.js'
+import { getSubtitles } from 'youtube-captions-scraper';
+
 
 
 
@@ -16,7 +18,9 @@ const generateTranscript = async (req, res) => {
         }
 
         // Fetch the transcript for the video
-        const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+        //const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+        const transcript = await getSubtitles({videoID:videoId,lang:"en"});
+        //console.log({transcript})
 
         if (!transcript || transcript.length === 0) {
             return res.status(404).json({ message: "Transcript not available for this video" });
