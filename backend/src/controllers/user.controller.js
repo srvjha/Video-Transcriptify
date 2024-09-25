@@ -34,9 +34,9 @@ const registerUser = asyncHandler(async (req,res)=>{
   // return res
 
   const{fullName,username,email,password} =  req.body
-  console.log("FullName: ",fullName)
-  console.log("Email: ",email)
-  console.log("REQUESTED BODY: ",req.body)
+//   console.log("FullName: ",fullName)
+//   console.log("Email: ",email)
+//   console.log("REQUESTED BODY: ",req.body)
 
    // check for user data validation
   if([fullName,username,email,password].some((field)=>field?.trim()===""))
@@ -48,7 +48,7 @@ const registerUser = asyncHandler(async (req,res)=>{
    const existedUser = await User.findOne({
     $or:[{username},{email}]
    })
-   console.log("EXISTED USER: ",existedUser)
+   //console.log("EXISTED USER: ",existedUser)
    if(existedUser)
    {
     throw new ApiError(409,"User Already Existed!")
@@ -91,7 +91,7 @@ const loginUser = asyncHandler(async(req,res)=>{
    }
 
      const user=  await User.findOne({email})
-     console.log("USER ",user)
+     //console.log("USER ",user)
 
      if(!user)
      {
