@@ -47,10 +47,10 @@ const videoTranscript = asyncHandler(async (req, res) => {
         let audioUrl; // Declare audioUrl here
 
         try {
-            await youtubedl(url, {
+           const audioFilePath =  await youtubedl(url, {
                 extractAudio: true,
                 audioFormat: 'mp3',
-                output: audioFilePath,
+                output:audioFileName,
             });
 
             console.log(`Downloaded audio: ${audioFileName}`);
