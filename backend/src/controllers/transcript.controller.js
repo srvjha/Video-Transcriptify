@@ -12,8 +12,8 @@ import { enhanceWithGemini } from "../api/gemini.api.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
-console.log("UploadDir: ", uploadsDir);
+// const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
+// console.log("UploadDir: ", uploadsDir);
 
 const videoTranscript = asyncHandler(async (req, res) => {
     try {
@@ -22,7 +22,8 @@ const videoTranscript = asyncHandler(async (req, res) => {
         });
 
         const { videoUrl: url } = req.body;
-        // Step 1: Get the video title
+
+        // Step 1: Get the video info and audio stream
         const videoInfo = await youtubedl(url, {
             dumpSingleJson: true,
             cookies: path.resolve(__dirname, '../../config/youtube-cookies.txt')
@@ -31,44 +32,25 @@ const videoTranscript = asyncHandler(async (req, res) => {
         const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
         const audioFileName = `${videoTitle.replace(/ /g, '-')}.mp3`; // Convert spaces to dashes
 
-        // Step 2: Ensure the uploads directory exists
-        if (!await fs.promises.access(uploadsDir).catch(() => false)) {
-            await fs.promises.mkdir(uploadsDir, { recursive: true });
-            console.log(`Directory created at: ${uploadsDir}`);
-        } else {
-            console.log("File Directory Already Exists");
-        }
-
-        // Step 3: Define the path to save the downloaded audio
-        const audioFilePath = path.resolve(uploadsDir, audioFileName);
-        console.log(`Saving audio to: ${audioFilePath}`);
-
-        // Step 4: Download audio and upload it directly to Cloudinary
-        let audioUrl; // Declare audioUrl here
-
+        // Step 2: Stream audio directly to Cloudinary
+        let cloudinaryUrl;
         try {
-            await youtubedl(url, {
+            cloudinaryUrl = await uploadOnCloudnary(youtubedl(url, {
                 extractAudio: true,
-                audioFormat: 'mp3',
-                output: audioFilePath,
-            });
-
-            console.log(`Downloaded audio: ${audioFileName}`);
-            
-            const cloudinaryResponse = await uploadOnCloudnary(audioFilePath);
-            audioUrl = cloudinaryResponse.url; // Set audioUrl from Cloudinary response
-            console.log(`Audio uploaded to Cloudinary at: ${audioUrl}`);
+                audioFormat: 'mp3'
+            }));
+            console.log(`Audio uploaded to Cloudinary at: ${cloudinaryUrl}`);
         } catch (error) {
-            console.error("Error downloading or uploading audio:", error);
-            throw new ApiError(400, `Error: ${error.message}`);
+            console.error("Error uploading audio to Cloudinary:", error);
+            throw new ApiError(400, `Cloudinary Upload Failed: ${error.message}`);
         }
 
-        // Step 6: Send to AssemblyAI for transcription
-        const config = { audio_url: audioUrl };
+        // Step 3: Send audio URL to AssemblyAI for transcription
+        const config = { audio_url: cloudinaryUrl };
         const transcriptResponse = await client.transcripts.transcribe(config);
         const transcriptId = transcriptResponse.id;
 
-        // Step 7: Poll for the transcription result
+        // Step 4: Poll for the transcription result
         const checkStatus = async (id) => {
             const result = await client.transcripts.get(id);
             if (result.status === 'completed') {
@@ -95,15 +77,16 @@ const videoTranscript = asyncHandler(async (req, res) => {
                 }
             } catch (err) {
                 clearInterval(pollInterval);
-                return next(err); // Pass error to the error handler
+                next(err); // Pass error to the error handler
             }
-        }, 1000); // Poll every second
-
+        }, 5000); // Poll every 5 seconds
     } catch (error) {
-        console.log(error);
-        throw new ApiError(400, `Error Occurred: ${error.message}`);
+        console.error(error);
+        throw new ApiError(400, `Error occurred: ${error.message}`);
     }
 });
+
+
 
 const checkMe = asyncHandler(async (req, res) => {
     return res.status(201).json(
