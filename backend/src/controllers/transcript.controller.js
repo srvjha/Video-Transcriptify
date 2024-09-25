@@ -12,8 +12,8 @@ import { enhanceWithGemini } from "../api/gemini.api.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
-// console.log("UploadDir: ", uploadsDir);
+const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
+console.log("UploadDir: ", uploadsDir);
 
 const videoTranscript = asyncHandler(async (req, res, next) => {
     try {
@@ -23,7 +23,7 @@ const videoTranscript = asyncHandler(async (req, res, next) => {
 
         const { videoUrl: url } = req.body;
 
-        // Step 1: Get the video info
+        // Step 1: Get the video title
         const videoInfo = await youtubedl(url, {
             dumpSingleJson: true,
             cookies: path.resolve(__dirname, '../../config/youtube-cookies.txt')
@@ -32,25 +32,28 @@ const videoTranscript = asyncHandler(async (req, res, next) => {
         const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
         const audioFileName = `${videoTitle.replace(/ /g, '-')}.mp3`; // Convert spaces to dashes
 
-        // Step 2: Extract and stream the audio directly to Cloudinary
-        let cloudinaryUrl;
+        // Step 2: Download audio and upload it directly to Cloudinary
+        let audioUrl;
+
         try {
-            const audioStream = youtubedl(url, {
+            await youtubedl(url, {
                 extractAudio: true,
                 audioFormat: 'mp3',
-                output: '-'
-            }, { stdio: ['ignore', 'pipe', 'ignore'] }); // Stream the audio output
-            console.log({audioStream})
+                output: audioFileName,
+            });
 
-            cloudinaryUrl = await uploadOnCloudnary(audioStream); // Upload stream directly
-            console.log(`Audio uploaded to Cloudinary at: ${cloudinaryUrl}`);
+            console.log(`Downloaded audio: ${audioFileName}`);
+
+            const cloudinaryResponse = await uploadOnCloudnary(audioFileName);
+            audioUrl = cloudinaryResponse.url;
+            console.log(`Audio uploaded to Cloudinary at: ${audioUrl}`);
         } catch (error) {
-            console.error("Error uploading audio to Cloudinary:", error);
-            throw new ApiError(400, `Cloudinary Upload Failed: ${error.message}`);
+            console.error("Error downloading or uploading audio:", error);
+            throw new ApiError(400, `Error: ${error.message}`);
         }
 
-        // Step 3: Send the Cloudinary URL to AssemblyAI for transcription
-        const config = { audio_url: cloudinaryUrl.secure_url }; // Use the secure Cloudinary URL
+        // Step 3: Send to AssemblyAI for transcription
+        const config = { audio_url: audioUrl };
         const transcriptResponse = await client.transcripts.transcribe(config);
         const transcriptId = transcriptResponse.id;
 
@@ -66,31 +69,40 @@ const videoTranscript = asyncHandler(async (req, res, next) => {
         };
 
         let pollAttempts = 0;
+        let responseSent = false;  // Prevent multiple responses
         const pollInterval = setInterval(async () => {
             try {
                 pollAttempts++;
                 const text = await checkStatus(transcriptId);
-                if (text) {
-                    clearInterval(pollInterval);
+                if (text && !responseSent) {  // Check if a response is already sent
+                    responseSent = true;  // Mark response as sent
+                    clearInterval(pollInterval);  // Stop polling
+
                     const notesAI = await enhanceWithGemini(text);
                     return res.status(201).json(new ApiResponse(201, { transcript: notesAI }));
                 }
-                if (pollAttempts >= 12) { // Timeout after 12 attempts (60 seconds)
-                    clearInterval(pollInterval);
+
+                if (pollAttempts >= 12 && !responseSent) {  // Timeout after 12 attempts (60 seconds)
+                    responseSent = true;  // Mark response as sent
+                    clearInterval(pollInterval);  // Stop polling
+
                     throw new ApiError(408, 'Transcription process timed out');
                 }
             } catch (err) {
-                clearInterval(pollInterval);
-                next(err); // Pass error to the error handler
+                if (!responseSent) {  // Check if a response is already sent
+                    responseSent = true;  // Mark response as sent
+                    clearInterval(pollInterval);  // Stop polling
+                    return next(err);  // Pass error to the error handler
+                }
             }
-        }, 5000); // Poll every 5 seconds
+        }, 1000);  // Poll every second
+
     } catch (error) {
-        console.error(error);
-        throw new ApiError(400, `Error occurred: ${error.message}`);
+        if (!res.headersSent) {  // Ensure response hasn't already been sent
+            return next(error);  // Pass error to next middleware
+        }
     }
 });
-
-
 
 
 const checkMe = asyncHandler(async (req, res) => {
