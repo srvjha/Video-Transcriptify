@@ -6,16 +6,27 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const uploadOnCloudnary = async (audioUrl) => {
+const uploadOnCloudnary = async (audioStream) => {
     try {
-        if (!audioUrl) return null;
-        
-        // Upload the MP3 file (local or remote)
-        const response = await cloudinary.uploader.upload(audioUrl, {
-            resource_type: "video", // Cloudinary treats audio under the 'video' resource_type
-            format: "mp3" // Ensure that the format is MP3
-        });
-        
+        if (!audioStream) return null;
+
+        const uploadStream = () => {
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { resource_type: "video", format: "mp3" }, // Audio is uploaded as 'video' resource type
+                    (error, result) => {
+                        if (result) {
+                            resolve(result);
+                        } else {
+                            reject(error);
+                        }
+                    }
+                );
+                audioStream.stdout.pipe(stream); // Piping the youtube-dl audio stream
+            });
+        };
+
+        const response = await uploadStream();
         return response;
     } catch (error) {
         console.log("Error: ", error);

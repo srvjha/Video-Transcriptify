@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 // const uploadsDir = path.join(__dirname, '../../public/uploads'); // Assuming your file structure
 // console.log("UploadDir: ", uploadsDir);
 
-const videoTranscript = asyncHandler(async (req, res) => {
+const videoTranscript = asyncHandler(async (req, res, next) => {
     try {
         const client = new AssemblyAI({
             apiKey: process.env.ASSEMBLY_API_KEY
@@ -23,7 +23,7 @@ const videoTranscript = asyncHandler(async (req, res) => {
 
         const { videoUrl: url } = req.body;
 
-        // Step 1: Get the video info and audio stream
+        // Step 1: Get the video info
         const videoInfo = await youtubedl(url, {
             dumpSingleJson: true,
             cookies: path.resolve(__dirname, '../../config/youtube-cookies.txt')
@@ -32,21 +32,25 @@ const videoTranscript = asyncHandler(async (req, res) => {
         const videoTitle = videoInfo.title.replace(/[^\w\s]/gi, ''); // Clean video title
         const audioFileName = `${videoTitle.replace(/ /g, '-')}.mp3`; // Convert spaces to dashes
 
-        // Step 2: Stream audio directly to Cloudinary
+        // Step 2: Extract and stream the audio directly to Cloudinary
         let cloudinaryUrl;
         try {
-            cloudinaryUrl = await uploadOnCloudnary(youtubedl(url, {
+            const audioStream = youtubedl(url, {
                 extractAudio: true,
-                audioFormat: 'mp3'
-            }));
+                audioFormat: 'mp3',
+                output: '-'
+            }, { stdio: ['ignore', 'pipe', 'ignore'] }); // Stream the audio output
+            console.log({audioStream})
+
+            cloudinaryUrl = await uploadOnCloudnary(audioStream); // Upload stream directly
             console.log(`Audio uploaded to Cloudinary at: ${cloudinaryUrl}`);
         } catch (error) {
             console.error("Error uploading audio to Cloudinary:", error);
             throw new ApiError(400, `Cloudinary Upload Failed: ${error.message}`);
         }
 
-        // Step 3: Send audio URL to AssemblyAI for transcription
-        const config = { audio_url: cloudinaryUrl };
+        // Step 3: Send the Cloudinary URL to AssemblyAI for transcription
+        const config = { audio_url: cloudinaryUrl.secure_url }; // Use the secure Cloudinary URL
         const transcriptResponse = await client.transcripts.transcribe(config);
         const transcriptId = transcriptResponse.id;
 
@@ -85,6 +89,7 @@ const videoTranscript = asyncHandler(async (req, res) => {
         throw new ApiError(400, `Error occurred: ${error.message}`);
     }
 });
+
 
 
 
