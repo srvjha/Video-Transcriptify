@@ -1,6 +1,8 @@
 import { YoutubeTranscript } from 'youtube-transcript';
 import {enhanceWithGemini} from '../api/gemini.api.js'
 import { getSubtitles } from 'youtube-captions-scraper';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { ApiError } from '../utils/ApiError.js';
 
 
 
@@ -57,7 +59,19 @@ const extractVideoId = (url) => {
     return match && match[2].length === 11 ? match[2] : null;
 };
 
+const giveNotes = asyncHandler(async(req,res)=>{
+    try {
+        const url = req.body.url;
+        const prompt = `Generate Notes from this youtube video ${url}`
+        const notes =  await enhanceWithGemini(prompt);
+        return res.json(notes);
+        
+    } catch (error) {
+        console.error(error);
+        throw new ApiError(400,"Notes not generated")
+    }
+})
 
 
-export {generateTranscript}
+export {generateTranscript,giveNotes}
 
