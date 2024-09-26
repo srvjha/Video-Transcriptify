@@ -72,7 +72,7 @@ const extractVideoId = (url) => {
 const giveNotes = asyncHandler(async(req,res)=>{
     try {
         const url = req.body.url;
-        const prompt = `Generate Notes from this youtube video ${url}`
+        const prompt = `Summarize Notes Based on this video ${url}`
         const notes =  await enhanceWithGemini(prompt);
         return res.json(notes);
         
