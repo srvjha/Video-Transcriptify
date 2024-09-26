@@ -59,7 +59,7 @@ const NotesGenerate = () => {
       // const { id } = getVideoId(url);
       setLoading(true);
       try {
-        const response = await axios.post('https://video-transcriptify-backend.vercel.app/api/v1/users/give-notes', { url });
+        const response = await axios.post('/api/v1/users/give-notes', { url });
         console.log("RESPONSE : ", response)
         const cleanedTranscript = removeAsterisks(response.data); // Clean the transcript
         setTranscript(cleanedTranscript);
