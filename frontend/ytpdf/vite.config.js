@@ -9,7 +9,7 @@ export default defineConfig({
      // '/api': 'http://localhost:3000',
 
       //--> Production SERVER LINK
-       '/api': 'https://video-transcriptify.onrender.com', //--> v1
+       '/api': 'https://video-transcriptify-backend.vercel.app', //--> v1
       //'/api': 'https://video-transcriptify-1.onrender.com', 
       
 
