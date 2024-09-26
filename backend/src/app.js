@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import youtubedl from "youtube-dl-exec"
 import bodyParser from 'body-parser';
 
 
@@ -22,55 +21,6 @@ app.use(bodyParser.json());
 app.get('/',(req,res)=>{
     res.send("Everything is fine !!!")
 })
-
-
-// Using youtube-dl
-
-app.get('/api/v1/users/download', async (req, res) => {
-    try {
-      const url = req.query.url;
-  
-      const info = await youtubedl(url, {
-        dumpSingleJson: true,
-        noWarnings: true,
-        noCallHome: true,
-        noCheckCertificate: true,
-        preferFreeFormats: true,
-        youtubeSkipDashManifest: true
-      });
-  
-      // Filter and reduce to unique resolutions, include audio formats
-      const formats = info.formats
-        .filter(format => format.vcodec !== "none" || format.acodec !== "none") // Include both video and audio formats
-        .reduce((acc, format) => {
-          const isVideo = format.vcodec !== "none";
-          if (isVideo && format.height < 144) return acc; // Skip low resolution videos
-  
-          const key = isVideo ? format.height : `audio-${format.acodec}`;
-          if (!acc.some(f => (f.height === key || (f.isAudio && f.acodec === format.acodec)))) {
-            acc.push({
-              mimeType: format.ext === 'webm' ? `video/webm; codecs="${format.acodec}, ${format.vcodec}"` : `video/mp4; codecs="${format.acodec}, ${format.vcodec}"`,
-              hasVideo: isVideo,
-              height: isVideo ? format.height : null,
-              isAudio: !isVideo,
-              acodec: !isVideo ? format.acodec : null,
-              url: format.url,
-            });
-          }
-          return acc;
-        }, []);
-  
-      const data = {
-        url: `https://www.youtube.com/embed/${info.id}`,
-        info: formats
-      };
-  
-      res.send(data);
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
 
 
 

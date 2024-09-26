@@ -61,8 +61,8 @@ const NotesGenerate = () => {
       try {
         const response = await axios.post('https://video-transcriptify-backend.vercel.app/api/v1/users/give-notes', { url });
         console.log("RESPONSE : ", response)
-       // const cleanedTranscript = removeAsterisks(response.data.transcript); // Clean the transcript
-        setTranscript(response.data.data.transcript);
+        const cleanedTranscript = removeAsterisks(response.data); // Clean the transcript
+        setTranscript(cleanedTranscript);
         setError(null);
       } catch (error) {
         setError("Error fetching transcript. Please try again.", error);
