@@ -6,8 +6,8 @@ import { ApiError } from '../utils/ApiError.js';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import youtubedl from "youtube-dl-exec"
-
-
+import { ApiResponse } from '../utils/ApiResponse.js';
+import axios from 'axios'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -47,10 +47,13 @@ const generateTranscript = async (req, res) => {
         //console.log({fullTranscript})
 
         // Now with the help of AI will make notes out of it
-        let prompt = `Based on the following content: ${fullTranscript}, generate a summary and key points in a well-organized and professional manner. Ensure the output is structured clearly, remove any unnecessary symbols like *, and present the information concisely and formally without repeating the text exactly. Focus on summarizing the key ideas.`
+        let prompt = `Based on the following content: ${fullTranscript}, generate a summary and key points. Ensure the output is structured clearly, remove any unnecessary symbols like *, and present the information concisely and formally without repeating the text exactly. Focus on summarizing the key ideas.`
 
         const noteFromAI = await enhanceWithGemini(prompt);
-        return res.json(noteFromAI);
+       
+        return res.status(201).json(
+          new ApiResponse(200,noteFromAI,"NOTES GENERATED SUCCESSFULLY!")
+       )
         
 
        
@@ -68,19 +71,57 @@ const extractVideoId = (url) => {
 };
 
 
-// This is currenlty working
-const giveNotes = asyncHandler(async(req,res)=>{
-    try {
-        const url = req.body.url;
-        const prompt = `Summarize Notes Based on this video ${url}`
-        const notes =  await enhanceWithGemini(prompt);
-        return res.json(notes);
-        
-    } catch (error) {
-        console.error(error);
-        throw new ApiError(400,"Notes not generated")
-    }
-})
+const fetchYouTubeMetadata = async (videoUrl) => {
+  const videoIdMatch = videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:v\/|watch\?v=|embed\/|shorts\/))([^&?/]+)/);
+  const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+  if (!videoId) {
+    throw new Error("Invalid YouTube URL");
+  }
+
+  const youtubeApiUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${process.env.YOUTUBE_API_KEY}`;
+  const response = await axios.get(youtubeApiUrl);
+  //console.log("Yt Data: ",response)
+
+  if (response.data.items && response.data.items.length > 0) {
+    const video = response.data.items[0].snippet;
+    return {
+      channelName: video.channelTitle,
+      videoTitle: video.title,
+      description: video.description,
+    };
+  } else {
+    throw new Error("No data found for the given video ID");
+  }
+};
+
+const giveNotes = asyncHandler(async (req, res) => {
+  try {
+    const url = req.body.url;
+
+    // Step 1: Fetch metadata from YouTube
+    const metadata = await fetchYouTubeMetadata(url);
+
+    // Step 2: Use the accurate data in the prompt
+    const prompt = `
+    Summarize Notes Based on this video:
+    \n\n**Title:** ${metadata.videoTitle}
+    \n**Channel Name:** ${metadata.channelName}
+    \n**Description:** ${metadata.description}
+    Ensure the response is formatted cleanly without unnecessary newlines or special characters, and avoid repeating information unnecessarily.
+   `
+    ;
+
+    const notes = await enhanceWithGemini(prompt);
+
+    return res.status(201).json(
+      new ApiResponse(200, notes, "NOTES GENERATED SUCCESSFULLY!")
+    );
+  } catch (error) {
+    console.error(error);
+    throw new ApiError(400, "Notes not generated");
+  }
+});
 
 
 // for downloading
