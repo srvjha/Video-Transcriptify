@@ -16,6 +16,6 @@ router.route('/get-current-user').get(verifyJWT,getCurrentUser)
 router.route('/health-care').get(healthCare)
 router.route('/generate-transcript').post(generateTranscript)
 router.route('/give-notes').post(giveNotes)
-router.route('/download-video').get(verifyJWT,downloadVideo)
+router.route('/download-video').get(downloadVideo)
 
 export default router
