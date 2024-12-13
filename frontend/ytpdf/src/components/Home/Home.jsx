@@ -2,6 +2,7 @@ import React from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import Balancer from 'react-wrap-balancer'
+import { Link } from "react-router-dom";
 
 const App = () => {
   return (
