@@ -116,7 +116,9 @@ const loginUser = asyncHandler(async(req,res)=>{
      //Cookies
      const options = { // --> yeh krne se cookies sirf server se modify ho skta hai warna yeh beDfault modify bhi hota hai frontend pe
       httpOnly:true,
-      secure:true
+      secure:true,
+      sameSite: "None", // Allows cookies to be sent in cross-origin requests
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
      }
 
      return res
@@ -164,7 +166,9 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
        const options = { 
          httpOnly:true,
-         secure:true
+         secure:true,
+         sameSite: "None", // Allows cookies to be sent in cross-origin requests
+         maxAge: 24 * 60 * 60 * 1000, // 1 day
         }
 
         return res
