@@ -11,7 +11,7 @@ import {
 } from "@react-pdf/renderer";
 import { Oval } from 'react-loader-spinner';
 import FileProcessing from '../../utils/FileProcessing';
-
+import { Mode } from '../../config/ApplicationMode';
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "white",
@@ -43,7 +43,10 @@ const NotesGenerate = () => {
   const [transcript, setTranscript] = useState("");
   const [langchange,setLangChange] = useState(false)
   const [fileName, setFileName] = useState("")
-  const inputRef = useRef()
+  const inputRef = useRef();
+  const envNode = Mode();
+  let envURL = envNode.url;
+ 
 
   const removeAsterisks = (text) => {
     return text.replace(/\*\*/g, '').replace(/\*/g, '•');
@@ -59,7 +62,7 @@ const NotesGenerate = () => {
       // const { id } = getVideoId(url);
       setLoading(true);
       try {
-        const response = await axios.post('https://video-transcriptify-backend.vercel.app/api/v1/users/give-notes', { url });
+        const response = await axios.post(`${envURL}/api/v1/users/give-notes`, { url },{withCredentials:true});
         console.log("RESPONSE : ", response)
         const cleanedTranscript = removeAsterisks(response.data.data); // Clean the transcript
         setTranscript(cleanedTranscript);

@@ -4,22 +4,31 @@ import axios from 'axios';
 import home from './assets/homeImg.png'
 import pdf from './assets/pdf.png'
 import logout from './assets/logout.png'
+import { Mode } from './config/ApplicationMode';
 
 
 const LoginHeader = ({ name }) => {
     const fullName = name;  
     const navigate = useNavigate();
-    const [active,setActive] = useState('btn1')
+    const [active,setActive] = useState('btn1');
+    const envNode = Mode();
+    let envURL;    
+    envURL = envNode.url;
     
     
 
     const handleLogoutForm = (e) => {
         e.preventDefault();
-        axios.post("/api/v1/users/logout")
+        axios.post(`${envURL}/api/v1/users/logout`,
+            {},
+    {
+        withCredentials: true, // Include cookies in the request
+    }
+        )
         .then((res) => {
-           
-            navigate("/");
             localStorage.removeItem('accessToken');
+            navigate("/");
+           
         })
         .catch((error) => {
             console.error("Logout failed:", error);

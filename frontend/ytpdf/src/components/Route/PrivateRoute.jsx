@@ -4,7 +4,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom"
 const PrivateComponent = () => {
   
     const token = localStorage.getItem('accessToken');
-    //console.log("token: ",token)
+   // console.log("token: ",token)
    
     
     return (

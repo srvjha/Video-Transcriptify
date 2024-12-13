@@ -226,6 +226,7 @@ const refreshAccessToken  = asyncHandler(async(req,res)=>{
 
 const getCurrentUser = asyncHandler(async(req,res)=>{
    const user = req.userLogoutMiddleware
+   console.log({user})
    res.status(200).json(new ApiResponse(200,user,"User Details Fetched SuccessFully"))
 })
 

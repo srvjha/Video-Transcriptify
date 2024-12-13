@@ -1,35 +1,99 @@
-import React from 'react'
+import React from "react";
+import { IoIosArrowRoundForward } from "react-icons/io";
+import { motion } from "framer-motion";
+import Balancer from 'react-wrap-balancer'
 
-
-const Home = () => {
+const App = () => {
   return (
-    <div>
-       
-       <div className=' text-center text-[40px] text-black'>
-                            <div className=" py-10">
-                                <div className="max-w-6xl mx-auto px-4">
-                                    <h1 className="text-4xl font-bold text-center mb-8">Welcome to Video Transcriptify!</h1>
-                                    <p className="text-lg text-center mb-8">At Video Transcriptify, we provide you with a seamless solution to download <span className='font-bold'>Free</span> YouTube videos and convert them into PDF notes effortlessly. Whether you're a student preparing for exams, a professional gathering research material, or simply someone who enjoys learning from online videos, we've got you covered.</p>
-                                    <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-                                        <h2 className="text-2xl font-bold mb-4">Features:</h2>
-                                        <ul className="list-disc pl-5 text-xl text-left">
-                                            <li className="mb-2"><span className='font-bold'>Download YouTube Videos</span> : Easily download your favorite YouTube videos in various formats. With just a few clicks, you can save videos directly to your device for offline viewing.</li>
-                                            <li className="mb-2"><span className='font-bold'>Convert to PDF Notes</span>: Turn YouTube videos into concise, organized PDF notes. Our intuitive tool extracts key information from the video and formats it into easily digestible notes, perfect for study sessions or reference.</li>
-                                            <li className="mb-2"><span className='font-bold'>Transcript Generation</span> : Gain access to the transcript of the downloaded video. Our platform automatically generates accurate transcripts, allowing you to review content quickly and efficiently.</li>
-                                            <li className="mb-2"><span className='font-bold'>User-Friendly Interface</span> : Our website offers a user-friendly interface designed for seamless navigation. Whether you're a tech-savvy individual or new to online tools, you'll find our platform intuitive and easy to use.</li>
-                                            <li className="mb-2"> <span className='font-bold'>Secure and Reliable</span> : Rest assured, your data's security and privacy are our top priorities. We employ robust security measures to safeguard your information throughout the download and conversion process.</li>
-                                        </ul>
-                                    </div>
-                                    <div className="bg-white rounded-lg shadow-lg p-8 mb-8 text-left">
-                                        <h2 className="text-2xl font-bold mb-4">Get Started:</h2>
-                                        <p className="text-lg mb-4">Ready to enhance your learning experience? Start by entering the URL of the YouTube video you'd like to download. Our platform will guide you through the process, ensuring a smooth and hassle-free experience from start to finish.</p>
-                                        <p className="text-lg ">Join the countless users who rely on Youtube Explo to simplify their online learning journey. Begin exploring our features today and unlock the potential of YouTube videos as powerful study aids.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    </div>
-  )
-}
+    <div className="min-h-screen flex flex-col justify-center items-center ">
+     
 
-export default Home
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl w-full h-[600px]   p-4 space-y-8 md:space-y-0 md:space-x-8">
+        {/* Left Section */}
+        <div className="flex-1">
+        <h2 className="text-4xl md:text-6xl  p-[10px] text-shadow font-bold bg-gradient-to-r from-white via-yellow-100 to-blue-200 text-transparent bg-clip-text leading-snug">
+        Transform YouTube videos into personalized AI-generated notes
+      </h2>
+
+          <p className="mt-4 text-lg text-gray-300   p-1 rounded-md">
+            <Balancer>– Simply paste the URL and download your notes!</Balancer>
+          </p>
+          <div className="mt-6">
+            <button className="flex items-center bg-black text-white px-4 py-4 w-[160px] justify-center rounded-lg hover:bg-gray-100 hover:text-black">
+              <span className="mr-2 text-xl font-semibold">Try now</span>
+              <IoIosArrowRoundForward size={28} className="mt-2 -ml-2" />
+            </button>
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <motion.div
+          className="flex-1 max-w-lg"
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <img
+            src="ai-notes.png"
+            alt="AI Notes"
+            className="rounded-lg shadow-lg w-full"
+          />
+        </motion.div>
+      </div>
+
+      {/* Features Section */}
+      <div className="w-full max-w-6xl p-4 mt-14">
+        {/* <h3 className="text-3xl font-bold text-white mb-6">Features</h3> */}
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Download YouTube Videos",
+              description:
+                "Easily download your favorite YouTube videos in various formats. Save videos directly to your device.",
+            },
+            {
+              title: "Convert to PDF Notes",
+              description:
+                "Turn YouTube videos into concise, organized PDF notes, perfect for study sessions or reference.",
+            },
+            {
+              title: "Transcript Generation",
+              description:
+                "Automatically generate accurate transcripts for quick and efficient review of content.",
+            },
+            {
+              title: "User-Friendly Interface",
+              description:
+                "Enjoy an intuitive and seamless experience, suitable for all users.",
+            },
+            {
+              title: "Secure and Reliable",
+              description:
+                "Your data's security and privacy are our top priorities with robust measures.",
+            },
+          ].map((feature, index) => (
+            <motion.li
+              key={index}
+              className="relative p-4 bg-gradient-to-r from-purple-600 via-pink-700 to-blue-600 rounded-lg shadow-lg text-white"
+              whileHover={{
+                scale: 1.05,
+                rotateX: 10,
+                rotateY: -5,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 150,
+              }}
+            >
+              <h4 className="text-xl font-semibold">{feature.title}</h4>
+              <p className="mt-2">{feature.description}</p>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default App;

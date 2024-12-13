@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from "axios";
-
+import { Mode } from '../../config/ApplicationMode';
 const VideoDownload = () => {
   const [url, setUrl] = useState("");
   const [data, setData] = useState(null);
@@ -13,11 +13,14 @@ const VideoDownload = () => {
     inputRef.current.focus();
   }, []);
 
+  const envNode = Mode();
+  let envURL = envNode.url;
+
   const handleDownload = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.get(`https://video-transcriptify-backend.vercel.app/api/v1/users/download-video?url=${encodeURIComponent(url)}`,
+      const response = await axios.get(`${envURL}/api/v1/users/download-video?url=${encodeURIComponent(url)}`,
       { 
         withCredentials: true 
       }
