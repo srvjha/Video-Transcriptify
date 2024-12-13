@@ -20,10 +20,12 @@ const App = () => {
             <Balancer>– Simply paste the URL and download your notes!</Balancer>
           </p>
           <div className="mt-6">
+            <Link to='/generate-notes'>
             <button className="flex items-center bg-black text-white px-4 py-4 w-[160px] justify-center rounded-lg hover:bg-gray-100 hover:text-black">
               <span className="mr-2 text-xl font-semibold">Try now</span>
               <IoIosArrowRoundForward size={28} className="mt-2 -ml-2" />
             </button>
+            </Link>
           </div>
         </div>
 
