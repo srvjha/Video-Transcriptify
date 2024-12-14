@@ -91,14 +91,14 @@ function Register() {
     };
 
   return (
-    <div>
-      <section className="sm:mt-0 sm:ml-0 sm:mr-0 w-full">
-        <div className="flex flex-row mx-auto md:h-screen lg:py-0">
-          <div className="w-[1000px]">
-            <img src="banner.webp" alt="" className="h-[737px] w-[880px]" />
-          </div>
+   
+    <div className="min-h-screen bg-gradient-to-r from-purple-900 via-pink-600 to-blue-400 flex items-center justify-center">
+    <div className=" flex flex-row  mx-auto md:h-screen lg:py-0 md:justify-center overflow-hidden">
+         <div className='hidden lg:block '>
+            <img src="banner.webp" alt="" className='h-[737px] w-[1000px]' />
+         </div>
           <div className="w-[760px] bg-white flex items-center justify-center">
-            <div className="p-6 flex flex-col items-center justify-center space-y-2 md:space-y-4 sm:p-8 w-[550px]">
+            <div className="p-6 mt-16  flex flex-col items-center justify-center space-y-2 md:space-y-2 sm:p-8 w-[550px]">
               <div className="text-5xl font-bold text-gray-900">
                 Welcome!
               </div>
@@ -273,8 +273,8 @@ function Register() {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+   
   );
 }
 
