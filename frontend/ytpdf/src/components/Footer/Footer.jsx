@@ -3,6 +3,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FaLinkedinIn } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -26,18 +27,29 @@ const Footer = () => {
 
       {/* Social Icons */}
       <div className="flex justify-center space-x-4 mt-3 p-2">
+        <Link to="https://wa.me/7043495527">
         <div className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-transform duration-300 hover:scale-125">
           <FaWhatsapp size={23} className="text-gray-200 cursor-pointer hover:text-green-500 transition duration-300" />
         </div>
+        </Link>
+
+        <Link to="https://x.com/J_srv001">
         <div className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-transform duration-300 hover:scale-125">
           <RiTwitterXLine size={23} className="text-gray-200 cursor-pointer hover:text-black transition duration-300" />
         </div>
+        </Link>
+
+        <Link to="https://www.linkedin.com/in/saurav-jha-a30362196">
         <div className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-transform duration-300 hover:scale-125">
           <FaLinkedinIn size={23} className="text-gray-200 cursor-pointer hover:text-blue-500 transition duration-300" />
         </div>
+        </Link>
+
+        <Link to="https://www.instagram.com/s__r_v029">
         <div className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-transform duration-300 hover:scale-125">
           <IoLogoInstagram size={23} className="text-gray-200 cursor-pointer hover:text-pink-500 transition duration-300" />
         </div>
+        </Link>
       </div>
     </div>
   );
