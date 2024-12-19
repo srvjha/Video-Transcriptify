@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 const app =express();
 
 app.use(cors({    
-    origin:"http://localhost:5173",
+    origin:"https://video-transcriptify.vercel.app",
     credentials:true
 }))
 // app.use() is used to mount the CORS middleware globally to the Express application. It specifies the CORS configuration options, including the allowed origin (retrieved from the environment variable CORS_ORIGIN) and whether credentials (such as cookies) should be allowed in cross-origin requests.
