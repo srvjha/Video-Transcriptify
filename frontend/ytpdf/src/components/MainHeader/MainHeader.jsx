@@ -6,14 +6,18 @@ import {Mode} from '../../config/ApplicationMode.js'
 import { useCookies } from 'react-cookie';
 
 const MainHeader = () => {
+  const [cookies, setCookie] = useCookies(['accessToken']); 
   const token = localStorage.getItem('accessToken');
-  const [cookies, setCookie] = useCookies(['accessToken']);
-  setCookie('accessToken', token)
   const [name,setName] = useState(""); 
   const envNode = Mode();
   let envURL;    
   envURL = envNode.url;
   
+  useEffect(()=>{
+    if(token && cookies.accessToken !== token){
+      setCookie('accessToken',token)
+    }
+  },[token,cookies.accessToken,setCookie])
 
   const getUserDetails = ()=>{
     axios.get(`${envURL}/api/v1/users/get-current-user`,
@@ -29,8 +33,11 @@ const MainHeader = () => {
   }
    
     useEffect(()=>{
-      getUserDetails()
-    },[])
+      if(token){
+        getUserDetails()
+      }
+      
+    },[token])
   
   
   return token ? <LoginHeader name={name} /> : <Header />;
