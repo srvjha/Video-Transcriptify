@@ -1,7 +1,9 @@
 export const Mode = ()=>{
     const mode1 ={
          name:"production",
-         url:"https://video-transcriptify-backend.vercel.app"
+         url:"https://video-transcriptify.onrender.com"
+         //https://video-transcriptify.onrender.com
+         //https://video-transcriptify-backend.vercel.app
         };
     const mode2 ={ 
         name:"development",
