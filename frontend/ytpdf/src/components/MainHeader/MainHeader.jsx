@@ -19,7 +19,7 @@ const MainHeader = () => {
       console.log("SETTING COOKIE");
       setCookie("accessToken", token, {
         sameSite: "None",
-        secure: window.location.protocol === "http:" || window.location.hostname === "https",
+        secure: window.location.protocol === "https:" ,
       });
     }
   }, [token, cookies.accessToken, setCookie]);
