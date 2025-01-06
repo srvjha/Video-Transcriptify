@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 const MainHeader = () => {
   const [cookies, setCookie] = useCookies(['accessToken']); 
   const token = localStorage.getItem('accessToken');
-  console.log("TOKEN:",token)
+ // console.log("TOKEN:",token)
   const [name,setName] = useState(""); 
   const envNode = Mode();
   let envURL;    
@@ -16,7 +16,7 @@ const MainHeader = () => {
   
   useEffect(() => {
     if (token && cookies.accessToken !== token) {
-      console.log("SETTING COOKIE");
+      //console.log("SETTING COOKIE");
       setCookie("accessToken", token, {
         sameSite: "None",
         secure: window.location.protocol === "https:" ,
@@ -24,7 +24,7 @@ const MainHeader = () => {
     }
   }, [token, cookies.accessToken, setCookie]);
 
-  console.log("COOKIE:",cookies)
+  // console.log("COOKIE:",cookies)
 
   const getUserDetails = ()=>{
     axios.get(`${envURL}/api/v1/users/get-current-user`,

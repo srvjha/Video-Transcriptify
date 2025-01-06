@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className="p-5 text-center shadow-2xl mx-4 sm:mx-16 flex flex-col rounded-xl mb-4 bg-transparent/10 ">
+    <div className="p-5 text-center mx-4 sm:mx-16 flex flex-col rounded-xl mb-4 mt-4 bg-transparent ">
       <div className=' mt-5'>
         <div className="text-black text-xl font-bold font-sans">
           Made with 💖 by Saurav Jha

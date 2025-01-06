@@ -3,6 +3,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import Balancer from 'react-wrap-balancer'
 import { Link } from "react-router-dom";
+import Explain from "../HomeContent/Explain";
 
 const App = () => {
   return (
@@ -29,7 +30,8 @@ const App = () => {
             </Link>
           </div>
         </div>
-
+        
+        
         {/* Right Section */}
         <motion.div
           className="flex-1 max-w-lg"
@@ -45,56 +47,9 @@ const App = () => {
         </motion.div>
       </div>
 
-      {/* Features Section */}
-      <div className="w-full max-w-6xl p-4 mt-14">
-        {/* <h3 className="text-3xl font-bold text-white mb-6">Features</h3> */}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              title: "Download YouTube Videos",
-              description:
-                "Easily download your favorite YouTube videos in various formats. Save videos directly to your device.",
-            },
-            {
-              title: "Convert to PDF Notes",
-              description:
-                "Turn YouTube videos into concise, organized PDF notes, perfect for study sessions or reference.",
-            },
-            {
-              title: "Transcript Generation",
-              description:
-                "Automatically generate accurate transcripts for quick and efficient review of content.",
-            },
-            {
-              title: "User-Friendly Interface",
-              description:
-                "Enjoy an intuitive and seamless experience, suitable for all users.",
-            },
-            {
-              title: "Secure and Reliable",
-              description:
-                "Your data's security and privacy are our top priorities with robust measures.",
-            },
-          ].map((feature, index) => (
-            <motion.li
-              key={index}
-              className="relative p-4 bg-gradient-to-r from-purple-600 via-pink-700 to-blue-600 rounded-lg shadow-lg text-white"
-              whileHover={{
-                scale: 1.05,
-                rotateX: 10,
-                rotateY: -5,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 150,
-              }}
-            >
-              <h4 className="text-xl font-semibold">{feature.title}</h4>
-              <p className="mt-2">{feature.description}</p>
-            </motion.li>
-          ))}
-        </ul>
-      </div>
+      <Explain/>
+
+      
     </div>
   );
 };
