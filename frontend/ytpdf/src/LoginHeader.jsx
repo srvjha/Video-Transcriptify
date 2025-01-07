@@ -29,7 +29,7 @@ const LoginHeader = ({ name }) => {
     };
 
     return (
-        <div className='bg-black text-white sm:w-full sm:h h-20 sm:max-w-[710px] mx-auto mt-6 rounded-full font-semibold p-5 text-[15px]'>
+        <div className='bg-black -mb-[80px] text-white sm:w-full sm:h h-20 sm:max-w-[710px] mx-auto mt-6 rounded-full font-semibold p-5 text-[15px]'>
             <div className='flex flex-row -mt-4 space-x-4 sm:ml-10 ml-4 sm:mt-0 sm:flex-row md:flex-row sm:space-x-6 space-y-4 sm:space-y-0 items-center'>
                 <Link to="/home">
                     <div

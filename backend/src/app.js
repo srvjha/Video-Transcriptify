@@ -5,7 +5,11 @@ import bodyParser from 'body-parser';
 
 
 const app =express();
-
+/* 
+change the Origin Url as per the development/production
+Developement(For my useCase):- http://localhost:5173
+Production:- https://video-transcriptify.vercel.app/
+*/
 app.use(cors({    
     origin:"https://video-transcriptify.vercel.app",
     credentials:true
