@@ -7,7 +7,9 @@ import Explain from "../HomeContent/Explain";
 
 const App = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center ">
+    <>
+    <div id="home"></div>
+    <div className="min-h-screen flex flex-col justify-center items-center mt-24 ">
      
 
       {/* Main Content */}
@@ -51,6 +53,7 @@ const App = () => {
 
       
     </div>
+    </>
   );
 };
 
