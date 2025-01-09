@@ -95,7 +95,7 @@ const Explain = () => {
       </div>
 
          <div id="features" className="px-4 lg:px-36 py-16">
-         <div className='text-3xl text-white font-bold mb-8'>Features</div>
+         <div className='text-3xl text-white font-bold mb-16'>Features</div>
         <div className="w-full max-w-6xl mx-auto">
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
