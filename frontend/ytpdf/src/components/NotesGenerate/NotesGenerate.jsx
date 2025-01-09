@@ -120,7 +120,7 @@ const NotesGenerate = () => {
 
   return (
     <>
-      <div className='mt-20'>
+      <div>
         <div className=' flex flex-col'>
         <div className="flex  p-2 rounded-2xl mx-auto w-full max-w-[700px]">
       <select className="cursor-pointer bg-white rounded-md p-2 w-[220px] text-center bg-transparent border-none focus:outline-none" onChange={handleOptionChange}>

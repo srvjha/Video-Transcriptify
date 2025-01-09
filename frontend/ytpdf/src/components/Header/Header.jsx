@@ -50,7 +50,7 @@ const Header = () => {
 
   }
   return (
-    <div>
+    <div className='mb-32 '>
        
       {/* Banner Section */}
       <div className="bg-black text-white text-center p-1 text-sm font-medium">

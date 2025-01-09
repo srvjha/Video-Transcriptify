@@ -9,7 +9,7 @@ const App = () => {
   return (
     <>
     <div id="home"></div>
-    <div className="min-h-screen flex flex-col justify-center items-center mt-8 pt-16 sm:pt-24 px-4 ">     
+    <div className="min-h-screen flex flex-col justify-center items-center -mt-36 pt-16 sm:pt-24 px-4 ">     
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl w-full lg:h-[600px] p-4 space-y-8 lg:space-y-0 lg:space-x-8">
