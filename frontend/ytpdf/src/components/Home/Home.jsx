@@ -9,26 +9,26 @@ const App = () => {
   return (
     <>
     <div id="home"></div>
-    <div className="min-h-screen flex flex-col justify-center items-center mt-24 ">
-     
+    <div className="min-h-screen flex flex-col justify-center items-center mt-8 pt-16 sm:pt-24 px-4 ">     
 
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl w-full h-[600px]   p-4 space-y-8 md:space-y-0 md:space-x-8">
-        {/* Left Section */}
-        <div className="flex-1">
-        <h2 className="text-4xl md:text-6xl  p-[10px] text-shadow font-bold bg-gradient-to-r from-white via-yellow-100 to-blue-200 text-transparent bg-clip-text leading-snug">
-        Transform YouTube videos into personalized AI-generated notes
+      <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl w-full lg:h-[600px] p-4 space-y-8 lg:space-y-0 lg:space-x-8">
+      {/* Left Section */}
+        <div className="flex-1 text-center lg:text-left">
+        <h2 className="text-3xl sm:text-4xl lg:text-6xl p-[10px] text-shadow font-bold bg-gradient-to-r from-white via-yellow-100 to-blue-200 text-transparent bg-clip-text leading-snug">
+               Transform YouTube videos into personalized AI-generated notes
       </h2>
 
-          <p className="mt-4 text-lg text-gray-300   p-1 rounded-md">
-            <Balancer>– Simply paste the URL and download your notes!</Balancer>
-          </p>
-          <div className="mt-6">
-            <Link to='/generate-notes'>
-            <button className="flex items-center bg-black text-white px-4 py-4 w-[160px] justify-center rounded-lg hover:bg-gray-100 hover:text-black">
-              <span className="mr-2 text-xl font-semibold">Try now</span>
-              <IoIosArrowRoundForward size={28} className="mt-2 -ml-2" />
-            </button>
+      <p className="mt-4 text-base sm:text-lg text-gray-300 p-1 rounded-md">
+          <Balancer>– Simply paste the URL and download your notes!</Balancer>
+      </p>
+
+          <div className="mt-6 flex justify-center lg:justify-start">
+               <Link to='/generate-notes'>
+               <button className="flex items-center bg-black text-white px-4 py-3 sm:py-4 w-[160px] justify-center rounded-lg hover:bg-gray-100 hover:text-black transition-colors">
+                  <span className="mr-2 text-lg sm:text-xl font-semibold">Try now</span>
+                  <IoIosArrowRoundForward size={28} className="mt-1 -ml-2" />
+                </button>
             </Link>
           </div>
         </div>
@@ -36,16 +36,16 @@ const App = () => {
         
         {/* Right Section */}
         <motion.div
-          className="flex-1 max-w-lg"
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <img
-            src="ai-notes.png"
-            alt="AI Notes"
-            className="rounded-lg shadow-lg w-full"
-          />
+            className="flex-1 max-w-full lg:max-w-lg px-4 sm:px-8 lg:px-0"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <img
+              src="ai-notes.png"
+              alt="AI Notes"
+              className="rounded-lg shadow-lg w-full"
+            />
         </motion.div>
       </div>
 

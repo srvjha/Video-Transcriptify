@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import videoIcon from '../../assets/vidicon.png'
 import user from '../../assets/user.png'
+import { Menu, X } from 'lucide-react';
 
 
 const Header = () => {
   const[isScrolled,setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleScroll = ()=>{
     if(window.scrollY > 0 ){
      // console.log("Scroll Started: ",window.scrollY);
@@ -58,40 +60,133 @@ const Header = () => {
        
       </div>
       
-      <div className={`fixed space-x-[220px] z-[1000] flex flex-row sm:flex-row w-full  h-[110px] ${isScrolled ? "-mt-7 backdrop-blur-md":""} `}>
-        <div className='mt-8  ml-52  w-10 h-12 object-cover'>
-          <img src="webIcon.png" alt="videoIcon"   className='w-12 h-12'/>
-        </div>
-        <div className=" flex flex-row sm:flex-row  z-50 bg-black  justify-center text-white max-w-full sm:max-w-[500px] mx-auto min-w-[100px] h-[60px] sm:h-[60px] mt-6 rounded-full font-semibold p-8">
-        <div className="flex flex-row sm:flex-row sm:-mt-2 -mt-8 text-2xl space-x-6 ">
-          <div className="hover:text-gray-400 cursor-pointer p-1 m-1 sm:ml-[5px] sm:-m-3 sm:mr-4 transition-all duration-200 hover:scale-110">
-            <div onClick={(e)=>handleHome(e)}>Home</div>
+    
+    <nav className={`fixed w-full z-[1000] ${isScrolled ? "backdrop-blur-md" : ""}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-[110px]">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <img 
+              src="webIcon.png" 
+              alt="videoIcon" 
+              className="w-12 h-12 object-cover"
+            />
           </div>
-          <div  className="hover:text-gray-400 cursor-pointer p-1 m-1 sm:-m-3 sm:mr-4 transition-all duration-200 hover:scale-110">
-            <div onClick={(e)=>handleFeatures(e)}>Features</div>
-          </div>
-          <div  className="hover:text-gray-400 cursor-pointer p-1 m-1 sm:-m-3 sm:mr-4 transition-all duration-200 hover:scale-110">
-            <div  onClick={(e)=>handleFaqs(e)}>FAQs</div>
-          </div>
-          <div  className="hover:text-gray-400 cursor-pointer p-1 m-1 sm:-m-3 sm:mr-4 transition-all duration-200 hover:scale-110">
-            <div onClick={()=>alert("Coming Soon....")}>Pricing</div>
-          </div>
-         
-          
-        </div>
-      </div>
-      <div className='mt-1 mr-7 '>
-      {/* <Link to="/register" className="hover:text-gray-400 cursor-pointer p-1 m-1 sm:-m-3 sm:mr-4 transition-all duration-200 hover:scale-110">
-            <div className=''>Register</div>
-          </Link> */}
-          <Link to="/login" className="hover:text-gray-400 cursor-pointer p-1 m-1 sm:-m-3 transition-all duration-200 hover:scale-110">
-            <div className='bg-black text-white rounded-full p-4 flex flex-row items-center font-semibold '>
-              <img src={user} alt="User"  className='w-6 h-6'/>
-              SignUp/Login
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="flex items-center bg-black rounded-full px-8 py-4">
+              <div className="flex space-x-6 text-2xl text-white">
+                <button 
+                  onClick={handleHome}
+                  className="hover:text-gray-400 transition-all duration-200 hover:scale-110"
+                >
+                  Home
+                </button>
+                <button 
+                  onClick={handleFeatures}
+                  className="hover:text-gray-400 transition-all duration-200 hover:scale-110"
+                >
+                  Features
+                </button>
+                <button 
+                  onClick={handleFaqs}
+                  className="hover:text-gray-400 transition-all duration-200 hover:scale-110"
+                >
+                  FAQs
+                </button>
+                <button 
+                  onClick={() => alert("Coming Soon....")}
+                  className="hover:text-gray-400 transition-all duration-200 hover:scale-110"
+                >
+                  Pricing
+                </button>
               </div>
-          </Link>
-     </div>
+            </div>
+          </div>
+
+          {/* Login Button */}
+          <div className="hidden md:block">
+            <Link 
+              to="/login" 
+              className="bg-black text-white rounded-full px-6 py-4 flex items-center space-x-2 hover:bg-gray-800 transition-all duration-200"
+            >
+              <img src={user} alt="User" className="w-6 h-6" />
+              <span className="font-semibold">SignUp/Login</span>
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 rounded-md text-white bg-black hover:bg-gray-800"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+        </div>
       </div>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-black bg-opacity-95 backdrop-blur-md">
+          <div className="px-4 pt-2 pb-4 space-y-2">
+            <button
+              onClick={(e) => {
+                handleHome(e);
+                setIsMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 rounded-lg"
+            >
+              Home
+            </button>
+            <button
+              onClick={(e) => {
+                handleFeatures(e);
+                setIsMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 rounded-lg"
+            >
+              Features
+            </button>
+            <button
+              onClick={(e) => {
+                handleFaqs(e);
+                setIsMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 rounded-lg"
+            >
+              FAQs
+            </button>
+            <button
+              onClick={() => {
+                alert("Coming Soon....");
+                setIsMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-white hover:bg-gray-800 rounded-lg"
+            >
+              Pricing
+            </button>
+            <Link 
+              to="/login"
+              className="block w-full px-4 py-2 text-white hover:bg-gray-800 rounded-lg"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center space-x-2">
+                <img src={user} alt="User" className="w-6 h-6" />
+                <span>SignUp/Login</span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
+
       {/* Navigation Bar */}
      
 

@@ -1,13 +1,16 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import home from './assets/homeImg.png';
 import pdf from './assets/pdf.png';
 import logout from './assets/logout.png';
 import { Mode } from './config/ApplicationMode';
+import Loader from './utils/loader';
 
 const LoginHeader = ({ name }) => {
+    const[isScrolled,setIsScrolled] = useState(false);
     const fullName = name;
+   // console.log("fullname: ",fullName)
     const navigate = useNavigate();
     const location = useLocation();
     const getLocation = location.pathname;
@@ -28,8 +31,28 @@ const LoginHeader = ({ name }) => {
             });
     };
 
+    
+      const handleScroll = ()=>{
+        if(window.scrollY > 0 ){
+          console.log("Scroll Started: ",window.scrollY);
+          setIsScrolled(true);
+        }
+        else{
+         console.log("Scroll Stopped: ",window.scrollY);
+          setIsScrolled(false)
+        }
+      }
+
+      useEffect(()=>{
+          window.addEventListener('scroll',handleScroll);
+          return ()=>{
+            window.removeEventListener('scroll',handleScroll);
+            }
+        },[])
+
     return (
-        <div className='bg-black fixed ml-[460px] -mb-[60px] z-[1000] text-white sm:w-full sm:h h-20 sm:max-w-[710px] mx-auto mt-6 rounded-full font-semibold p-5 text-[15px]'>
+        <div className='flex justify-center items-center mt-5 -mb-[90px]'>
+        <div className={`bg-black fixed    z-[1000] text-white sm:w-full h-20 sm:max-w-[710px] mx-auto mt-20 rounded-full font-semibold p-5 text-[15px]`}>
             <div className='flex flex-row -mt-4 space-x-4 sm:ml-10 ml-4 sm:mt-0 sm:flex-row md:flex-row sm:space-x-6 space-y-4 sm:space-y-0 items-center'>
                 <Link to="/home">
                     <div
@@ -91,7 +114,10 @@ const LoginHeader = ({ name }) => {
                     </div>
                 </Link>
                 <div className="bg-yellow-300 text-black rounded-lg p-2 sm:text-[15px] text-[10px] text-center">
-                    {fullName}
+                    {fullName.length === 0 ?
+                    <Loader/>
+                    : fullName
+                    }
                 </div>
                 <div
                     className='cursor-pointer hover:bg-blue-800 rounded-md p-2 text-center'
@@ -103,6 +129,7 @@ const LoginHeader = ({ name }) => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     );
 };
