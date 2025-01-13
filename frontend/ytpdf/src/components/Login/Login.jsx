@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {Mode} from '../../config/ApplicationMode.js'
+import { useDispatch } from 'react-redux';
+import { isAuthenticated } from '../../Redux/slices/authSlice.js';
 
 
 const Login = () => {
@@ -12,6 +14,7 @@ const Login = () => {
     
    
     const navigate = useNavigate();
+    const dispatch  = useDispatch();
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };
@@ -46,15 +49,12 @@ const Login = () => {
                 email: email, password: password
             },{ withCredentials: true,})
             .then((res) => {
-                // login(res.data.data.user)
-                
-                formReset(e)
-                               
-                localStorage.setItem('accessToken', res.data.data.accessToken);
-                // console.log(res)
-                // console.log("ACCESSTOKEN: ",res.data.data.accessToken)
-               
+                //console.log(res.status)
+                if(res.status === 200)  { 
+                dispatch(isAuthenticated(true))        
+                            
                 navigate("/home")
+                }
             })
             .catch((error) => {
                 if (error.response && error.response.data && error.response.data.message) {

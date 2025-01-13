@@ -118,7 +118,7 @@ const loginUser = asyncHandler(async(req,res)=>{
       httpOnly:true,
       secure:true,
       sameSite: "None", // Allows cookies to be sent in cross-origin requests
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      maxAge: 5 * 24 * 60 * 60 * 1000, // 1 day
      }
 
      return res
@@ -168,7 +168,6 @@ const logoutUser = asyncHandler(async(req,res)=>{
          httpOnly:true,
          secure:true,
          sameSite: "None", // Allows cookies to be sent in cross-origin requests
-         maxAge: 24 * 60 * 60 * 1000, // 1 day
         }
 
         return res
@@ -186,6 +185,7 @@ const logoutUser = asyncHandler(async(req,res)=>{
 
 const refreshAccessToken  = asyncHandler(async(req,res)=>{
   const incomingRefreshToken =  req.cookies.refreshToken || req.body.refreshToken
+  console.log("incomingRT: ",incomingRefreshToken)
   if(!incomingRefreshToken)
   {
    throw new ApiError(401,"Unauthorized Request")
@@ -199,7 +199,7 @@ const refreshAccessToken  = asyncHandler(async(req,res)=>{
    {
     throw new ApiError(401,"Invalid Refresh Token!")
    }
- 
+   console.log("user: ",user)
    if(incomingRefreshToken!==user?.refreshToken)
    {
     throw new ApiError(401,"Refresh Token Expired or Used!")
@@ -207,15 +207,17 @@ const refreshAccessToken  = asyncHandler(async(req,res)=>{
  
    const options = {
     httpOnly:true,
-    secure:true
+    secure:true,
+    sameSite: "None",
+    maxAge:  3 * 24 * 60 * 60 * 1000
    }
  
-   const{accessToken,newRefreshToken}= await generateAccessAndRefreshTokens(user._id)
+   const{accessToken,refreshToken:newRefreshToken}= await generateAccessAndRefreshTokens(user._id)
  
    return res
    .status(200)
-   .cookies("accessToken",accessToken,options)
-   .cookies("refreshToken",newRefreshToken,options)
+   .cookie("accessToken",accessToken,options)
+   .cookie("refreshToken",newRefreshToken,options)
    .json(
        new ApiResponse(
           200,

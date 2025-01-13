@@ -1,53 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import LoginHeader from "../../LoginHeader";
 import Header from "../Header/Header";
-import axios from 'axios';
-import {Mode} from '../../config/ApplicationMode.js'
-import { useCookies } from 'react-cookie';
+import axios from "axios";
+import { Mode } from "../../config/ApplicationMode.js";
 
 const MainHeader = () => {
-  const [cookies, setCookie] = useCookies(['accessToken']); 
-  const token = localStorage.getItem('accessToken');
- // console.log("TOKEN:",token)
-  const [name,setName] = useState(""); 
+  const [tokenStatus, setTokenStatus] = useState("");
+  const [name, setName] = useState("");
   const envNode = Mode();
-  let envURL;    
-  envURL = envNode.url;
-  
-  useEffect(() => {
-    if (token && cookies.accessToken !== token) {
-      //console.log("SETTING COOKIE");
-      setCookie("accessToken", token, {
-        sameSite: "None",
-        secure: window.location.protocol === "https:" ,
-      });
-    }
-  }, [token, cookies.accessToken, setCookie]);
-
-  // console.log("COOKIE:",cookies)
-
-  const getUserDetails = ()=>{
-    axios.get(`${envURL}/api/v1/users/get-current-user`,
-      
-      { withCredentials: true,}
-    )
-    .then((res)=>{
-        //console.log("DATA:",res)
-        setName(res.data.data.fullName)
-       
-    })
-
-  }
+  const envURL = envNode.url;
    
-    useEffect(()=>{
-      if(token){
-        getUserDetails()
-      }
-      
-    },[token])
+  // Set the access token cookie if it's not already set
   
-  
-  return token ? <LoginHeader name={name} /> : <Header />;
+
+  // Function to get user details
+  const getUserDetails = useCallback(() => {
+    axios
+      .get(`${envURL}/api/v1/users/get-current-user`, { withCredentials: true })
+      .then((res) => {
+        //console.log("user data: ",res)
+        setName(res.data.data.fullName);
+        setTokenStatus(""); // Reset token status on success
+      })
+      .catch((error) => {
+        //console.log("ERROR:", error);
+        if (error.response?.status === 401) {
+          setTokenStatus(401); // Trigger token refresh if 401
+        }
+      });
+  }, [envURL]);
+
+  // Handle token refresh when access token is expired
+  useEffect(() => {
+    if (tokenStatus === 401) {
+      axios
+        .post(
+          `${envURL}/api/v1/users/refresh-token`,
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if(res.statusCode === 200){
+            // Fetch user details with the refreshed token
+             getUserDetails();
+          }
+        })
+        .catch((error) => {
+          //console.log("ERROR refreshing token:", error);
+          setTokenStatus(401); // Reset token status on failure
+         // console.log("Refresh token expired. Logging out.");
+        });
+    }
+  }, [tokenStatus, envURL, getUserDetails]);
+
+
+  useEffect(()=>{
+    getUserDetails();
+  },[])
+  return tokenStatus !== 401 ? <LoginHeader name={name} /> : <Header />;
 };
 
 export default MainHeader;

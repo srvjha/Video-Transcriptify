@@ -6,6 +6,8 @@ import pdf from './assets/pdf.png';
 import logout from './assets/logout.png';
 import { Mode } from './config/ApplicationMode';
 import Loader from './utils/loader';
+import { useDispatch } from 'react-redux';
+import { isAuthenticated } from './Redux/slices/authSlice';
 
 const LoginHeader = ({ name }) => {
     const[isScrolled,setIsScrolled] = useState(false);
@@ -17,14 +19,15 @@ const LoginHeader = ({ name }) => {
 
     const envNode = Mode();
     const envURL = envNode.url;
+    const dispatch = useDispatch();
 
     const handleLogoutForm = (e) => {
         e.preventDefault();
         axios
             .post(`${envURL}/api/v1/users/logout`, {}, { withCredentials: true })
             .then(() => {
-                localStorage.removeItem('accessToken');
-                navigate("/");
+                dispatch(isAuthenticated(false))
+            navigate('/login');
             })
             .catch((error) => {
                 console.error("Logout failed:", error);
