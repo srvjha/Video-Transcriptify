@@ -3,6 +3,7 @@ import LoginHeader from "../../LoginHeader";
 import Header from "../Header/Header";
 import axios from "axios";
 import { Mode } from "../../config/ApplicationMode.js";
+import { useSelector } from 'react-redux';
 
 const MainHeader = () => {
   const [tokenStatus, setTokenStatus] = useState("");
@@ -18,7 +19,7 @@ const MainHeader = () => {
     axios
       .get(`${envURL}/api/v1/users/get-current-user`, { withCredentials: true })
       .then((res) => {
-        //console.log("user data: ",res)
+        console.log("user data: ",res)
         setName(res.data.data.fullName);
         setTokenStatus(""); // Reset token status on success
       })
@@ -51,12 +52,16 @@ const MainHeader = () => {
         });
     }
   }, [tokenStatus, envURL, getUserDetails]);
-
+   
 
   useEffect(()=>{
     getUserDetails();
   },[])
-  return tokenStatus !== 401 ? <LoginHeader name={name} /> : <Header />;
+
+  const isAuthenticated = useSelector((auth)=>auth.authStatus);
+  console.log("isAuthenticated: ",isAuthenticated.authStatus)
+  
+  return !isAuthenticated ? <LoginHeader name={name} /> : <Header />;
 };
 
 export default MainHeader;
