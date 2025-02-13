@@ -21,8 +21,9 @@ const router = createBrowserRouter(
       {/* Main Layout with Header and Footer */}
       <Route path="/" element={<Layout />}>
         <Route path="" element={<Landing_Page />} />
+        <Route path="home" element={<Home />} />
         <Route element={<PrivateRoute />}>
-          <Route path="home" element={<Home />} />
+         
           <Route path="generate-notes" element={<NotesGenerate />} />
           <Route path="download-video" element={<VideoDownload />} />
         </Route>

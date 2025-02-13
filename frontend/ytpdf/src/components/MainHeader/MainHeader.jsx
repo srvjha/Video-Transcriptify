@@ -61,7 +61,7 @@ const MainHeader = () => {
   const isAuthenticated = useSelector((auth)=>auth.authStatus);
   console.log("isAuthenticated: ",isAuthenticated.authStatus)
   
-  return !isAuthenticated ? <LoginHeader name={name} /> : <Header />;
+  return isAuthenticated.authStatus ? <LoginHeader name={name} /> : <Header />;
 };
 
 export default MainHeader;

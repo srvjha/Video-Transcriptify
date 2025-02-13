@@ -37,11 +37,11 @@ const LoginHeader = ({ name }) => {
     
       const handleScroll = ()=>{
         if(window.scrollY > 0 ){
-          console.log("Scroll Started: ",window.scrollY);
+          //console.log("Scroll Started: ",window.scrollY);
           setIsScrolled(true);
         }
         else{
-         console.log("Scroll Stopped: ",window.scrollY);
+         //console.log("Scroll Stopped: ",window.scrollY);
           setIsScrolled(false)
         }
       }
