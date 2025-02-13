@@ -75,8 +75,14 @@ export default {
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
-  		}
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+			'border': 'border 4s linear infinite',
+  		},
+		  keyframes: {
+			'border': {
+				to: { '--border-angle': '360deg' },
+			}
+		}    
   	}
   },
   plugins: [

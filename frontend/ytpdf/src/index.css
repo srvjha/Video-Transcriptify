@@ -19,6 +19,11 @@
   font-weight: 100;
   font-style: normal;
 }
+@property --border-angle {
+  inherits: false;
+  initial-value: 0deg;
+  syntax: '<angle>';
+}
 
 @layer base {
   :root {

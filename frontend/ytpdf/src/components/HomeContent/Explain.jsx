@@ -7,6 +7,7 @@ import {
   } from "../ui/accordion"
   import { motion } from "framer-motion";
   import Balancer from 'react-wrap-balancer'
+import { CardSpotlight } from '../ui/card-spotlight';
 
 
 
@@ -15,7 +16,7 @@ const Explain = () => {
     <div className='w-full'>
         <div className='min-h-screen flex flex-col lg:flex-row px-4 lg:px-8 py-8 lg:py-16 items-center lg:space-x-8 justify-center'>
         <div className='w-full lg:w-[580px] shadow-lg p-5 mb-2 lg:mb-0'>
-          <div className='text-2xl lg:text-3xl font-bold text-yellow-100'>
+          <div className='text-2xl lg:text-3xl font-bold text-white'>
              <Balancer>Create Notes Instantly With Youtube URL</Balancer></div>
              <div className='text-base lg:text-xl text-gray-200 mt-4'>
                     Does this ever happen to you that you are studying some concept on youtube but feels the need to get the notes out of it, I know some youtubers provides it but 
@@ -56,7 +57,7 @@ const Explain = () => {
             }}
           />
         </div>
-        <div className="w-full lg:w-[600px] text-yellow-100 p-6 rounded-lg shadow-lg">
+        <div className="w-full lg:w-[600px] text-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl lg:text-3xl font-bold mb-6 text-center lg:text-left">How to Make AI-Generated Notes</h2>
           <ul className="space-y-6">
             {[
@@ -95,7 +96,8 @@ const Explain = () => {
       </div>
 
          <div id="features" className="px-4 lg:px-36 py-16">
-         <div className='text-3xl text-white font-bold mb-16'>Features</div>
+         <div className='text-4xl text-white/90 font-bold mb-16 text-center'>Features</div>
+        
         <div className="w-full max-w-6xl mx-auto">
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -124,9 +126,10 @@ const Explain = () => {
                 description: "Your data's security and privacy are our top priorities with robust measures.",
               },
             ].map((feature, index) => (
+              <CardSpotlight>
               <motion.li
                 key={index}
-                className="relative p-4 bg-gradient-to-r from-purple-600 via-pink-700 to-blue-600 rounded-lg shadow-lg text-gray-50"
+                className="relative p-4 w-full h-full  text-gray-50"
                 whileHover={{
                   scale: 1.05,
                   rotateX: 10,
@@ -140,13 +143,15 @@ const Explain = () => {
                 <h4 className="text-xl font-semibold mb-2">{feature.title}</h4>
                 <p>{feature.description}</p>
               </motion.li>
+              </CardSpotlight>
             ))}
           </ul>
         </div>
         </div>
         
       <div id="faqs" className="px-4 lg:px-36 py-16">
-      <div className='text-3xl text-white font-bold mb-8'>FAQs</div>
+      <div className='text-4xl text-white/90 font-bold mb-8 text-center'>FAQs</div>
+
       <Accordion 
           type="single" 
           collapsible 
