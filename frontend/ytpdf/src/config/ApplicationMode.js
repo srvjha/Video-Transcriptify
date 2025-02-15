@@ -7,5 +7,5 @@ export const Mode = ()=>{
         name:"development",
         url:"http://localhost:3000"
     }
-    return mode2;
+    return mode1;
 }
