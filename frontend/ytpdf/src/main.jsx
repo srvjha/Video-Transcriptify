@@ -13,6 +13,8 @@ import Layout from './Layout.jsx'; // Main layout with header and footer
 import { Provider } from 'react-redux';
 import { persistor, store } from './Redux/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import NotFoundPage from './components/NotFoundPage/NotFoundPage';
+import CustomizePdf from './components/CustomizePdf/CustomizePdf';
 
 
 const router = createBrowserRouter(
@@ -23,27 +25,30 @@ const router = createBrowserRouter(
         <Route path="" element={<Landing_Page />} />
         <Route path="home" element={<Home />} />
         <Route element={<PrivateRoute />}>
-         
-          <Route path="generate-notes" element={<NotesGenerate />} />
-          <Route path="download-video" element={<VideoDownload />} />
+        <Route path="generate-notes" element={<NotesGenerate />} />
+        <Route path="download-video" element={<VideoDownload />} />
+        <Route path="customize-pdf" element={<CustomizePdf/>} />
         </Route>
       </Route>
 
       {/* Login and Register Layout without Header and Footer */}
-      <Route >
+      <Route>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
       </Route>
+
+      {/* 404 Not Found Page for invalid route  */}
+      <Route path="*" element={ <NotFoundPage/>} />
     </>
   )
 );
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  
     <Provider store = {store}>
       <PersistGate loading={null} persistor={persistor}>
     <RouterProvider router={router} />
     </PersistGate>
     </Provider>
-  </React.StrictMode>
+
 );

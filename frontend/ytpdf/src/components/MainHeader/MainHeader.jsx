@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import LoginHeader from "../../LoginHeader";
+import LoginHeader from "../Header/LoginHeader";
 import Header from "../Header/Header";
 import axios from "axios";
 import { Mode } from "../../config/ApplicationMode.js";

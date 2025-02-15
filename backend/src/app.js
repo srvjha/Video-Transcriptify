@@ -11,7 +11,7 @@ Developement(For my useCase):- http://localhost:5173
 Production:- https://video-transcriptify.vercel.app
 */
 app.use(cors({    
-    origin:"https://video-transcriptify.vercel.app",
+    origin:"http://localhost:5173",
     credentials:true
 }))
 // app.use() is used to mount the CORS middleware globally to the Express application. It specifies the CORS configuration options, including the allowed origin (retrieved from the environment variable CORS_ORIGIN) and whether credentials (such as cookies) should be allowed in cross-origin requests.

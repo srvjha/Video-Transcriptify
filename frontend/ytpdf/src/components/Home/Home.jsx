@@ -37,7 +37,7 @@ const App = () => {
         {/* Right Section */}
         <div class="w-full p-1  max-w-[522px] [background:linear-gradient(45deg,#172033,theme(colors.yellow.600)_50%,#172033)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.yellow.600)_80%,_theme(colors.pink.500)_86%,_theme(colors.pink.300)_90%,_theme(colors.pink.500)_94%,_theme(colors.yellow.600/.48))_border-box] rounded-2xl border-2 border-transparent animate-border">
         <div
-            className="flex-1 max-w-full lg:max-w-lg px-4 sm:px-8 lg:px-0"
+            className="flex-1 max-w-full lg:max-w-lg px-1 sm:px-1 lg:px-0"
             // initial={{ x: 100, opacity: 0 }}
             // animate={{ x: 0, opacity: 1 }}
             // transition={{ duration: 1 }}

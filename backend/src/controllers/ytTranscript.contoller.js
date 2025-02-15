@@ -108,7 +108,9 @@ const giveNotes = asyncHandler(async (req, res) => {
     \n\n**Title:** ${metadata.videoTitle}
     \n**Channel Name:** ${metadata.channelName}
     \n**Description:** ${metadata.description}
-    Ensure the response is formatted cleanly without unnecessary newlines or special characters, and avoid repeating information unnecessarily.
+    Ensure the response is formatted cleanly without unnecessary newlines or 
+    special characters, and avoid repeating information unnecessarily
+    Also elaborate the notes with detailed information.
    `
     ;
 
