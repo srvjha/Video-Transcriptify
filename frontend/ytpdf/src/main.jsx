@@ -15,6 +15,7 @@ import { persistor, store } from './Redux/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import CustomizePdf from './components/CustomizePdf/CustomizePdf';
+import EditPDF from './components/CustomizePdf/EditPDF';
 
 
 const router = createBrowserRouter(
@@ -39,6 +40,10 @@ const router = createBrowserRouter(
 
       {/* 404 Not Found Page for invalid route  */}
       <Route path="*" element={ <NotFoundPage/>} />
+     
+     {/* edit pdf page */}
+     <Route path="/edit-pdf/:id" element={ <EditPDF/>} />
+    
     </>
   )
 );
