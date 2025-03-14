@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import LoginHeader from "../Header/LoginHeader";
 import Header from "../Header/Header";
 import axios from "axios";
@@ -11,11 +11,9 @@ const MainHeader = () => {
   const envNode = Mode();
   const envURL = envNode.url;
    
-  // Set the access token cookie if it's not already set
-  
 
   // Function to get user details
-  const getUserDetails = useCallback(() => {
+  const getUserDetails =() => {
     axios
       .get(`${envURL}/api/v1/users/get-current-user`, { withCredentials: true })
       .then((res) => {
@@ -27,7 +25,7 @@ const MainHeader = () => {
           setTokenStatus(401); // Trigger token refresh if 401
         }
       });
-  }, [envURL]);
+  };
 
   // Handle token refresh when access token is expired
   useEffect(() => {
@@ -56,9 +54,7 @@ const MainHeader = () => {
     getUserDetails();
   },[])
 
-  const isAuthenticated = useSelector((auth)=>auth.authStatus);
-  //console.log("isAuthenticated: ",isAuthenticated.authStatus)
-  
+  const isAuthenticated = useSelector((auth)=>auth.authStatus);  
   return (isAuthenticated.authStatus && name) ? <LoginHeader name={name} /> : <Header />;
 };
 
