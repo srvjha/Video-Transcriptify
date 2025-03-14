@@ -29,7 +29,7 @@ const Header = () => {
   const handleHome = (e)=>{
     e.preventDefault();
     let getFeatureSectionById = document.getElementById("home");
-    console.log({getFeatureSectionById})
+    //console.log({getFeatureSectionById})
     getFeatureSectionById.scrollIntoView({behavior: "smooth"})
 
   }
@@ -37,7 +37,7 @@ const Header = () => {
   const handleFeatures = (e)=>{
     e.preventDefault();
     let getFeatureSectionById = document.getElementById("features");
-    console.log({getFeatureSectionById})
+   // console.log({getFeatureSectionById})
     getFeatureSectionById.scrollIntoView({behavior: "smooth"})
 
   }
@@ -45,7 +45,7 @@ const Header = () => {
   const handleFaqs = (e)=>{
     e.preventDefault();
     let getFeatureSectionById = document.getElementById("faqs");
-    console.log({getFeatureSectionById})
+   // console.log({getFeatureSectionById})
     getFeatureSectionById.scrollIntoView({behavior: "smooth"})
 
   }

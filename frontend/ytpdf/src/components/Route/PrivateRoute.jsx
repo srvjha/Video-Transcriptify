@@ -3,9 +3,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom"
 import { useSelector } from 'react-redux';
 
 const PrivateComponent = () => {
-    const isAuthenticated = useSelector((auth)=>auth.authStatus);
-    console.log("isAuthenticated: ",isAuthenticated.authStatus)
-    
+    const isAuthenticated = useSelector((auth)=>auth.authStatus);    
     return (
         <div>
             {isAuthenticated.authStatus ? (

@@ -36,7 +36,7 @@ const VideoDownload = () => {
       }
     } catch (error) {
       setError("Error downloading video. Please try again.");
-      console.log("ERROR: ", error);
+      //console.log("ERROR: ", error);
       setData(null);
     }
     setLoading(false);

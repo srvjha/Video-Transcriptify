@@ -117,8 +117,8 @@ const loginUser = asyncHandler(async(req,res)=>{
      const options = { // --> yeh krne se cookies sirf server se modify ho skta hai warna yeh beDfault modify bhi hota hai frontend pe
       httpOnly:true,
       secure:true,
-      sameSite: "None", // Allows cookies to be sent in cross-origin requests
-      maxAge: 5 * 24 * 60 * 60 * 1000, // 1 day
+      //sameSite: "None", // Allows cookies to be sent in cross-origin requests
+      maxAge: 24 * 60 * 60 * 1000, // 5 day
      }
 
      return res
@@ -232,13 +232,9 @@ const refreshAccessToken  = asyncHandler(async(req,res)=>{
 
 const getCurrentUser = asyncHandler(async(req,res)=>{
    const user = req.userLogoutMiddleware
-   console.log({user})
+  // console.log({user})
    res.status(200).json(new ApiResponse(200,user,"User Details Fetched SuccessFully"))
 })
 
-const healthCare = asyncHandler(async(req,res)=>{
-  
-      res.status(200).send('Server is up and running');
-  
-})
-export {registerUser,loginUser,logoutUser,refreshAccessToken,getCurrentUser,healthCare}
+
+export {registerUser,loginUser,logoutUser,refreshAccessToken,getCurrentUser}

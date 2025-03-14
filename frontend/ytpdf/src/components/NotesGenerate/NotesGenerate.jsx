@@ -63,7 +63,6 @@ const NotesGenerate = () => {
       setLoading(true);
       try {
         const response = await axios.post(`${envURL}/api/v1/users/give-notes`, { url },{withCredentials:true});
-        console.log("RESPONSE : ", response)
         const cleanedTranscript = removeAsterisks(response.data.data); // Clean the transcript
         setTranscript(cleanedTranscript);
         setError(null);

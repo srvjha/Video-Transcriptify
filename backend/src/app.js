@@ -30,11 +30,10 @@ app.get('/',(req,res)=>{
 
 // Router
 import userRouter from "./routes/user.routes.js"
-import transcript from "./routes/transcript.routes.js"
 import { errorHandler } from './middlewares/error.middleware.js';
 
 app.use("/api/v1/users",userRouter)
-app.use("/api/v1/video",transcript)
+
 app.use(errorHandler)
 
 export{app}

@@ -19,12 +19,10 @@ const MainHeader = () => {
     axios
       .get(`${envURL}/api/v1/users/get-current-user`, { withCredentials: true })
       .then((res) => {
-        console.log("user data: ",res)
         setName(res.data.data.fullName);
         setTokenStatus(""); // Reset token status on success
       })
       .catch((error) => {
-        //console.log("ERROR:", error);
         if (error.response?.status === 401) {
           setTokenStatus(401); // Trigger token refresh if 401
         }
@@ -46,7 +44,7 @@ const MainHeader = () => {
           }
         })
         .catch((error) => {
-          //console.log("ERROR refreshing token:", error);
+          console.log("ERROR refreshing token:", error);
           setTokenStatus(401); // Reset token status on failure
          // console.log("Refresh token expired. Logging out.");
         });
@@ -59,9 +57,9 @@ const MainHeader = () => {
   },[])
 
   const isAuthenticated = useSelector((auth)=>auth.authStatus);
-  console.log("isAuthenticated: ",isAuthenticated.authStatus)
+  //console.log("isAuthenticated: ",isAuthenticated.authStatus)
   
-  return isAuthenticated.authStatus ? <LoginHeader name={name} /> : <Header />;
+  return (isAuthenticated.authStatus && name) ? <LoginHeader name={name} /> : <Header />;
 };
 
 export default MainHeader;
